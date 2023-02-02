@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const requester = axios.create({
-  baseURL: "https://airbnbnew.cybersoft.edu.vn/",
+  baseURL: process.env.REACT_APP_API_UR,
   headers: {
-    TokenCybersoft:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAzNyIsIkhldEhhblN0cmluZyI6IjIzLzA1LzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY4NDgwMDAwMDAwMCIsIm5iZiI6MTY1NzIxMzIwMCwiZXhwIjoxNjg0OTQ3NjAwfQ.uVmhasF9oy0mXFYvSl8tBIUY7ZRmZ-U0hLsBB75mkn8",
+    TokenCybersoft: process.env.REACT_APP_CYBERSOFT_TOKEN,
   },
 });
 
@@ -12,11 +11,9 @@ const requester = axios.create({
 requester.interceptors.request.use((req) => {
   req.headers = {
     ...req.headers,
-    token: localStorage.getItem("token"),
+    Authorization: "Bearer " + localStorage.getItem("token"),
   };
-
   return req;
 });
-requester.interceptors.response.use();
 
 export default requester;
