@@ -1,10 +1,13 @@
-import React from 'react'
-import Auth from "./auth"
+import React from 'react';
+import Carousel from './components/Carousel';
+import Location from './components/Location';
+
 
 function Home() {
   return (
     <div>
-        <Auth />
+      <Carousel />
+      <Location />
     </div>
   )
 }
