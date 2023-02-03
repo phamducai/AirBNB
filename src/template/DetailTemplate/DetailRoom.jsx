@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Col, Row, Menu } from "antd";
+import React, { useEffect } from "react";
+import { Button, Col, Row, Menu, Tag } from "antd";
 import {
   AiOutlineFileDone,
   AiOutlineDotChart,
@@ -9,6 +9,9 @@ import {
   AiOutlineCar,
   AiOutlineBorderOuter,
 } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDetailRoomAction } from "redux/actions/detailRoomAction";
+import { useParams } from "react-router-dom";
 
 function getItem(label, key, children, type) {
   return {
@@ -27,25 +30,37 @@ const onClick = (e) => {
   console.log("click ", e);
 };
 
-const DetailTemplate = () => {
+const DetailRoom = () => {
+  const params = useParams();
+  const dispatch = useDispatch();
+
+  const detailRoom = useSelector((state) => state.detailRoomReducer.detailRoom);
+
+  console.log(detailRoom);
+
+  useEffect(() => {
+    const roomID = params.id;
+
+    dispatch(fetchDetailRoomAction(roomID));
+  }, [params]);
+
   return (
     <div className="container m-auto">
-      <h1>Tên phòng</h1>
-      <img
-        className="w-full"
-        src="https://airbnbnew.cybersoft.edu.vn/images/phong1.jpg"
-        alt=""
-      />
+      <h1>{detailRoom[0].tenPhong}</h1>
+      <img className="w-full" src={detailRoom[0].hinhAnh} alt="" />
       <Row>
         <Col span={16}>
           <div className="pr-52">
             <h2>Chi tiết</h2>
-            <p>6 phòng khách, 2 phòng ngủ</p>
+            <p>
+              {detailRoom[0].khach} phòng khách, {detailRoom[0].phongNgu} phòng
+              ngủ, {detailRoom[0].phongTam} phòng tắm
+            </p>
             <hr />
           </div>
           <div className="pr-52">
             <h2>Mô tả</h2>
-            <p>Phòng sạch sẽ</p>
+            <p>{detailRoom[0].moTa}</p>
             <hr />
           </div>
           <div className="pr-52">
@@ -53,10 +68,18 @@ const DetailTemplate = () => {
             <table className="w-full">
               <tr>
                 <td>
-                  <AiOutlineFileDone /> Máy giặt
+                  {detailRoom[0].mayGiat && (
+                    <Tag color="magenta">
+                      <AiOutlineFileDone /> Máy giặt
+                    </Tag>
+                  )}
                 </td>
                 <td>
-                  <AiOutlineDotChart /> Bàn ủi
+                  {detailRoom[0].banUi && (
+                    <Tag color="magenta">
+                      <AiOutlineDotChart /> Bàn ủi
+                    </Tag>
+                  )}
                 </td>
               </tr>
               <tr>
@@ -134,4 +157,4 @@ const DetailTemplate = () => {
   );
 };
 
-export default DetailTemplate;
+export default DetailRoom;

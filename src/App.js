@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginAction } from "redux/actions/AuthAction";
 import { getAllCommentsAction } from "redux/actions/CommentsAction";
-import DetailTemplate from "template/DetailTemplate/DetailTemplate";
+import DetailRoom from "template/DetailTemplate/DetailRoom";
 import AdminTemplate from "templates/AdminTemplate/AdminTemplate";
 import Test from "Test";
 
@@ -26,7 +26,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="detail" element={<DetailTemplate />} />
+        <Route path="detail" element={<DetailRoom />} />
         <Route path="test" element={<Test />} />
         <Route path="admin" element={<AdminTemplate />}>
           <Route index path="" element={<Dashboard />} />

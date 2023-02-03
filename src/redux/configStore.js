@@ -7,6 +7,7 @@ import { AdminUserReducers } from "./reducers/AdminUserReducer";
 import { LocationReducer } from "./reducers/LocationReducer";
 import { RentalRoomReducers } from "./reducers/RoomReducer";
 import { BookRoomReducer } from "./reducers/BookRoomReducer";
+import  detailRoomReducer  from "./reducers/detailRoomReducer";
 
 const rootReducer = combineReducers({
   Auth,
@@ -15,7 +16,10 @@ const rootReducer = combineReducers({
   LocationReducer,
   RentalRoomReducers,
   BookRoomReducer,
+  detailRoomReducer, 
 });
+
+
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
