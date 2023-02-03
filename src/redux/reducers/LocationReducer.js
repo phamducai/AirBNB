@@ -12,7 +12,7 @@ const inititalState = {
   getPaginationSearchingLocation: null,
 };
 
-export const BookRoomReducer = (state = inititalState, action) => {
+export const LocationReducer = (state = inititalState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
       case GET_ALL_LOCATION:
