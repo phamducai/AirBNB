@@ -35,11 +35,11 @@ export class AdminUser extends baseService {
 
   //   /api/users/{id}
   getAminUserbyID = (userid) => {
-    return this.get(`/api/users/?${userid}`);
+    return this.get(`/api/users/${userid}`);
   };
 
   putAminUser = (id, data) => {
-    return this.put(`/api/users/id=${id}`, data);
+    return this.put(`/api/users/${id}`, data);
   };
   //   /api/users/search/{TenNguoiDung}
 

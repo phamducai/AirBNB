@@ -37,8 +37,7 @@ export const PostAdminUserAction = (data) => {
 export const deleteAdminUserAction = (id) => {
   return async (dispatch) => {
     try {
-      const result = await adminuser.deleteAminUser(id);
-      console.log("result", result.data.content);
+      await adminuser.deleteAminUser(id);
     } catch (errors) {
       console.log("errors", errors.response?.data);
     }
@@ -81,7 +80,7 @@ export const getAdminUserByIDAction = (roomid) => {
         payload: result.data.content,
       });
     } catch (errors) {
-      console.log("errors", errors);
+      throw errors;
     }
   };
 };
@@ -89,10 +88,9 @@ export const getAdminUserByIDAction = (roomid) => {
 export const UpdateAdminUserAction = (userid, data) => {
   return async (dispatch) => {
     try {
-      let result = await adminuser.putAminUser(userid, data);
-      console.log("result", result);
+      await adminuser.putAminUser(userid, data);
     } catch (errors) {
-      console.log(errors.response?.data);
+      throw errors;
     }
   };
 };

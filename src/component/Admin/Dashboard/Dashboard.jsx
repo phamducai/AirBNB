@@ -1,9 +1,14 @@
 import React from "react";
 import { Button, Table, Input } from "antd";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAllAdminUserAction } from "redux/actions/AdminUserAction";
+import {
+  deleteAdminUserAction,
+  getAllAdminUserAction,
+} from "redux/actions/AdminUserAction";
+import { Fragment } from "react";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 
@@ -15,99 +20,95 @@ function Dashboard() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const users = useSelector((state) => state.AdminUserReducers.getAllUser);
+  console.log(users);
 
   const columns = [
     {
-      title: "Name",
+      title: "ID",
+      dataIndex: "id",
+      width: "10%",
+      sorter: (a, b) => a.id - b.id,
+      //   sortOrder: "descend",
+    },
+    {
+      title: "Full Name",
       dataIndex: "name",
+      width: "15%",
+    },
+    {
+      title: "Date of birth",
+      dataIndex: "birthday",
+      width: "15%",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      width: "20%",
+    },
+    {
+      title: "Type",
+      dataIndex: "role",
+      width: "10%",
       filters: [
         {
-          text: "Joe",
-          value: "Joe",
+          text: "ADMIN",
+          value: "ADMIN",
         },
         {
-          text: "Category 1",
-          value: "Category 1",
-          children: [
-            {
-              text: "Yellow",
-              value: "Yellow",
-            },
-            {
-              text: "Pink",
-              value: "Pink",
-            },
-          ],
-        },
-        {
-          text: "Category 2",
-          value: "Category 2",
-          children: [
-            {
-              text: "Green",
-              value: "Green",
-            },
-            {
-              text: "Black",
-              value: "Black",
-            },
-          ],
+          text: "USER",
+          value: "USER",
         },
       ],
-      filterMode: "tree",
-      filterSearch: true,
-      onFilter: (value, record) => record.name.includes(value),
+      filterMode: "menu",
+      filterMultiple: false,
+      onFilter: (value, record) => {
+        return record.role.includes(value);
+      },
+    },
+    {
+      title: "Action",
+
+      fixed: "right",
       width: "30%",
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      sorter: (a, b) => a.age - b.age,
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      filters: [
-        {
-          text: "London",
-          value: "London",
-        },
-        {
-          text: "New York",
-          value: "New York",
-        },
-      ],
-      onFilter: (value, record) => record.address.startsWith(value),
-      filterSearch: true,
-      width: "40%",
-    },
-  ];
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-    },
-    {
-      key: "4",
-      name: "Jim Red",
-      age: 32,
-      address: "London No. 2 Lake Park",
+      render: (text, user) => {
+        return (
+          <>
+            <NavLink
+              key="11"
+              className=" mr-2  text-2xl"
+              to={`/admin/GetUser/${user.id}`}
+            >
+              <EyeOutlined />
+            </NavLink>
+            <NavLink
+              key="10"
+              className=" mr-1 text-2xl"
+              to={`/admin/updateUser/${user.id}`}
+            >
+              <EditOutlined style={{ color: "blue" }} />{" "}
+            </NavLink>
+            <span style={{ cursor: "pointer" }} key="9" className="text-2xl">
+              <DeleteOutlined
+                style={{ color: "red" }}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Are you sure you want to delete" + user.id + "?"
+                    )
+                  ) {
+                    dispatch(deleteAdminUserAction(user.id));
+                    dispatch(getAllAdminUserAction());
+                  }
+                }}
+              />{" "}
+            </span>
+          </>
+        );
+      },
     },
   ];
+  const data = Array.isArray(users) ? users : [users];
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
@@ -123,7 +124,12 @@ function Dashboard() {
         size="large"
         name="search"
       />
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table
+        columns={columns}
+        dataSource={data}
+        onChange={onChange}
+        rowKey={"id"}
+      />
     </div>
   );
 }

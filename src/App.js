@@ -1,4 +1,7 @@
+import AddUser from "component/Admin/Dashboard/AddUser";
 import Dashboard from "component/Admin/Dashboard/Dashboard";
+import GetUser from "component/Admin/Dashboard/GetUser";
+import UpdateUser from "component/Admin/Dashboard/UpdateUser";
 import Location from "component/Admin/Location/Location";
 import Room from "component/Admin/Room/Room";
 import react, { useEffect } from "react";
@@ -7,6 +10,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginAction } from "redux/actions/AuthAction";
 import { getAllCommentsAction } from "redux/actions/CommentsAction";
 import AdminTemplate from "templates/AdminTemplate/AdminTemplate";
+import Test from "Test";
 
 function App() {
   const data = {
@@ -21,8 +25,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="test" element={<Test />} />
         <Route path="admin" element={<AdminTemplate />}>
           <Route index path="" element={<Dashboard />} />
+          <Route path="updateUser/:id" element={<UpdateUser />} />
+          <Route path="GetUser/:id" element={<GetUser />} />
+          <Route path="addUser" element={<AddUser />} />
           <Route path="rooms" element={<Room />} />
           <Route path="location" element={<Location />} />
         </Route>
