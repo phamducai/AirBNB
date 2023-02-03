@@ -1,6 +1,4 @@
 import { baseService } from "./baseService";
-
-
 export class AuthService extends baseService {
   // eslint-disable-next-line
   constructor() {
