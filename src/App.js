@@ -16,6 +16,7 @@ import AdminTemplate from "templates/AdminTemplate/AdminTemplate";
 import Test from "Test";
 
 import HomeTemplate from "templates/HomeTemplate/HomeTemplate";
+import Detail from "pages/Detail/Detail";
 
 function App() {
   const data = {
@@ -30,7 +31,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="detail" element={<DetailRoom />} />
+        <Route path="detail" element={<Detail />} />
         <Route path="test" element={<Test />} />
 
         <Route path="" element={<HomeTemplate />}>

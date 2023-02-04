@@ -31,36 +31,35 @@ const onClick = (e) => {
 };
 
 const DetailRoom = () => {
-  const params = useParams();
   const dispatch = useDispatch();
 
   const detailRoom = useSelector((state) => state.detailRoomReducer.detailRoom);
 
   console.log(detailRoom);
 
-  useEffect(() => {
-    const roomID = params.id;
+  dispatch(fetchDetailRoomAction(1));
 
-    dispatch(fetchDetailRoomAction(roomID));
-  }, [params]);
+  // useEffect(() => {
+  //     dispatch(fetchDetailRoomAction(2));
+  // }, [detailRoom]);
 
   return (
     <div className="container m-auto">
-      <h1>{detailRoom[0].tenPhong}</h1>
-      <img className="w-full" src={detailRoom[0].hinhAnh} alt="" />
+      <h1 className="mt-5 mb-2">{detailRoom?.tenPhong}</h1>
+      <img className="w-full mb-5" src={detailRoom?.hinhAnh} alt="" />
       <Row>
         <Col span={16}>
           <div className="pr-52">
             <h2>Chi tiết</h2>
             <p>
-              {detailRoom[0].khach} phòng khách, {detailRoom[0].phongNgu} phòng
-              ngủ, {detailRoom[0].phongTam} phòng tắm
+              {detailRoom?.khach} phòng khách, {detailRoom?.phongNgu} phòng ngủ,{" "}
+              {detailRoom?.phongTam} phòng tắm
             </p>
             <hr />
           </div>
           <div className="pr-52">
             <h2>Mô tả</h2>
-            <p>{detailRoom[0].moTa}</p>
+            <p>{detailRoom?.moTa}</p>
             <hr />
           </div>
           <div className="pr-52">
@@ -68,42 +67,52 @@ const DetailRoom = () => {
             <table className="w-full">
               <tr>
                 <td>
-                  {detailRoom[0].mayGiat && (
+                  <div className="mb-2">
+                  {detailRoom?.mayGiat && (
                     <Tag color="magenta">
                       <AiOutlineFileDone /> Máy giặt
                     </Tag>
                   )}
-                </td>
-                <td>
-                  {detailRoom[0].banUi && (
+                  {detailRoom?.banUi && (
                     <Tag color="magenta">
                       <AiOutlineDotChart /> Bàn ủi
                     </Tag>
                   )}
+                  {detailRoom?.tivi && (
+                    <Tag color="magenta">
+                      <AiOutlineYoutube /> Ti Vi
+                    </Tag>
+                  )}
+                  {detailRoom?.dieuHoa && (
+                    <Tag color="magenta">
+                      <AiOutlineFileDone /> Điều hòa
+                    </Tag>
+                  )}
+                  </div>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <AiOutlineYoutube /> Ti Vi
-                </td>
-                <td>
-                  <AiOutlineFileDone /> Điều hòa
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <AiOutlineWifi /> Wifi
-                </td>
-                <td>
-                  <AiOutlineFire /> Bếp
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <AiOutlineCar /> Có chổ đỗ xe
-                </td>
-                <td>
-                  <AiOutlineBorderOuter /> Hồ bơi
+                  {detailRoom?.wifi && (
+                    <Tag color="magenta">
+                      <AiOutlineWifi /> Wifi
+                    </Tag>
+                  )}
+                  {detailRoom?.bep && (
+                    <Tag color="magenta">
+                      <AiOutlineFire /> Bếp
+                    </Tag>
+                  )}
+                  {detailRoom?.doXe && (
+                    <Tag color="magenta">
+                      <AiOutlineCar /> Đỗ xe
+                    </Tag>
+                  )}
+                  {detailRoom?.hoBoi && (
+                    <Tag color="magenta">
+                      <AiOutlineBorderOuter /> Hồ bơi
+                    </Tag>
+                  )}
                 </td>
               </tr>
             </table>
