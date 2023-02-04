@@ -31,7 +31,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="test" element={<Test />} />
 
         <Route path="" element={<HomeTemplate />}>

@@ -37,11 +37,9 @@ const DetailRoom = () => {
 
   console.log(detailRoom);
 
-  dispatch(fetchDetailRoomAction(1));
-
-  // useEffect(() => {
-  //     dispatch(fetchDetailRoomAction(2));
-  // }, [detailRoom]);
+  useEffect(() => {    
+    dispatch(fetchDetailRoomAction(1));         
+  }, []);
 
   return (
     <div className="container m-auto">
@@ -65,51 +63,47 @@ const DetailRoom = () => {
           <div className="pr-52">
             <h2>Tiện nghi</h2>
             <table className="w-full">
-              <tr>
-                <td>
-                  <div className="mb-2">
-                  {detailRoom?.mayGiat && (
-                    <Tag color="magenta">
+              <tr className="flex gap-10">
+                <td className="mb-2 flex flex-col w-auto gap-2">
+                {detailRoom?.mayGiat && (
+                    <Tag color="magenta" className="text-base">
                       <AiOutlineFileDone /> Máy giặt
                     </Tag>
                   )}
                   {detailRoom?.banUi && (
-                    <Tag color="magenta">
+                    <Tag color="magenta" className="text-base">
                       <AiOutlineDotChart /> Bàn ủi
                     </Tag>
                   )}
                   {detailRoom?.tivi && (
-                    <Tag color="magenta">
+                    <Tag color="magenta" className="text-base">
                       <AiOutlineYoutube /> Ti Vi
                     </Tag>
                   )}
                   {detailRoom?.dieuHoa && (
-                    <Tag color="magenta">
+                    <Tag color="magenta" className="text-base">
                       <AiOutlineFileDone /> Điều hòa
                     </Tag>
                   )}
-                  </div>
                 </td>
-              </tr>
-              <tr>
-                <td>
+                <td className="mb-2 flex flex-col w-auto gap-2">
                   {detailRoom?.wifi && (
-                    <Tag color="magenta">
+                    <Tag color="magenta" className="text-base">
                       <AiOutlineWifi /> Wifi
                     </Tag>
                   )}
                   {detailRoom?.bep && (
-                    <Tag color="magenta">
+                    <Tag color="magenta" className="text-base">
                       <AiOutlineFire /> Bếp
                     </Tag>
                   )}
                   {detailRoom?.doXe && (
-                    <Tag color="magenta">
+                    <Tag color="magenta" className="text-base">
                       <AiOutlineCar /> Đỗ xe
                     </Tag>
                   )}
                   {detailRoom?.hoBoi && (
-                    <Tag color="magenta">
+                    <Tag color="magenta" className="text-base">
                       <AiOutlineBorderOuter /> Hồ bơi
                     </Tag>
                   )}
@@ -126,14 +120,14 @@ const DetailRoom = () => {
         <Col span={8}>
           <table className="w-full border-solid border-gray-400 border rounded-xl">
             <tbody>
-              <tr>
-                <td>Giá tiền/đêm</td>
+              <tr  >
+                <td><span className="text-2xl font-bold ml-3">${detailRoom?.giaTien}</span>/đêm</td>
               </tr>
-              <tr>
+              <tr className="text-center">
                 <td>Ngày nhận phòng</td>
                 <td>Ngày trả phòng</td>
               </tr>
-              <tr>
+              <tr className="text-center">
                 <td colSpan={2}>
                   <Menu
                     onClick={onClick}
@@ -145,9 +139,9 @@ const DetailRoom = () => {
                   />
                 </td>
               </tr>
-              <tr>
-                <td colSpan={2}>
-                  <Button>Đặt phòng</Button>
+              <tr className="text-center">
+                <td colSpan={2} >
+                  <Button className="w-1/2 h-auto m-2 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white">Đặt phòng</Button>
                 </td>
               </tr>
               <tr>
