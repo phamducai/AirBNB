@@ -4,6 +4,7 @@ import GetUser from "component/Admin/Dashboard/GetUser";
 import UpdateUser from "component/Admin/Dashboard/UpdateUser";
 import Location from "component/Admin/Location/Location";
 import Room from "component/Admin/Room/Room";
+import Home from "pages/Home/Home";
 import react, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -11,7 +12,11 @@ import { LoginAction } from "redux/actions/AuthAction";
 import { getAllCommentsAction } from "redux/actions/CommentsAction";
 import DetailRoom from "template/DetailTemplate/DetailRoom";
 import AdminTemplate from "templates/AdminTemplate/AdminTemplate";
+<<<<<<< Updated upstream
 import Test from "Test";
+=======
+import HomeTemplate from "templates/HomeTemplate/HomeTemplate";
+>>>>>>> Stashed changes
 
 function App() {
   const data = {
@@ -26,8 +31,15 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+<<<<<<< Updated upstream
         <Route path="detail" element={<DetailRoom />} />
         <Route path="test" element={<Test />} />
+=======
+        <Route path="" element={<HomeTemplate />}>
+          <Route index path="" element={<Home />}></Route>
+        </Route>
+
+>>>>>>> Stashed changes
         <Route path="admin" element={<AdminTemplate />}>
           <Route index path="" element={<Dashboard />} />
           <Route path="updateUser/:id" element={<UpdateUser />} />
