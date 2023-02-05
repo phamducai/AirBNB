@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginAction } from "redux/actions/AuthAction";
 import { getAllCommentsAction } from "redux/actions/CommentsAction";
-import DetailRoom from "template/DetailTemplate/DetailRoom";
 import AdminTemplate from "templates/AdminTemplate/AdminTemplate";
 
 import Test from "Test";

@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import { Button, Col, Row, Menu, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Row, Tag, Input, Calendar, Dropdown, Space } from "antd";
+import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import {
   AiOutlineFileDone,
   AiOutlineDotChart,
@@ -10,36 +11,55 @@ import {
   AiOutlineBorderOuter,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDetailRoomAction } from "redux/actions/detailRoomAction";
-import { useParams } from "react-router-dom";
+import {
+  fetchCheckRoomAction,
+  fetchDetailRoomAction,
+} from "redux/actions/detailRoomAction";
 
-function getItem(label, key, children, type) {
-  return {
-    key,
-    children,
-    label,
-    type,
-  };
-}
+const onPanelChange = (value, mode) => {
+  console.log(value.format("YYYY-MM-DD"), mode);
+};
 
 const items = [
-  getItem("Khách", "sub1", [getItem("Người lớn từ 13 tuổi trở lên", "1")]),
+  {
+    key: "1",
+    label: (
+      <div className="w-80">
+        <Calendar fullscreen={false} onPanelChange={onPanelChange} value={""} />
+      </div>
+    ),
+  },
 ];
-
-const onClick = (e) => {
-  console.log("click ", e);
-};
 
 const DetailRoom = () => {
   const dispatch = useDispatch();
 
   const detailRoom = useSelector((state) => state.detailRoomReducer.detailRoom);
+  const checkRoom = useSelector((state) => state.detailRoomReducer.checklRoom);
 
   console.log(detailRoom);
 
-  useEffect(() => {    
-    dispatch(fetchDetailRoomAction(1));         
+  
+
+  useEffect(() => {
+    dispatch(fetchDetailRoomAction(2));
+    dispatch(fetchCheckRoomAction(2));    
   }, []);
+
+  const [num, setNum] = useState(0);
+  const incNum = () => {
+    if (num < 5) {
+      setNum(Number(num) + 1);
+    }
+  };
+  const decNum = () => {
+    if (num > 0) {
+      setNum(num - 1);
+    }
+  };
+  const handleChange = (e) => {
+    setNum(e.target.value);
+  };
 
   return (
     <div className="container m-auto">
@@ -63,9 +83,9 @@ const DetailRoom = () => {
           <div className="pr-52">
             <h2>Tiện nghi</h2>
             <table className="w-full">
-              <tr className="flex gap-10">
+              <tr className="flex gap-16">
                 <td className="mb-2 flex flex-col w-auto gap-2">
-                {detailRoom?.mayGiat && (
+                  {detailRoom?.mayGiat && (
                     <Tag color="magenta" className="text-base">
                       <AiOutlineFileDone /> Máy giặt
                     </Tag>
@@ -120,28 +140,76 @@ const DetailRoom = () => {
         <Col span={8}>
           <table className="w-full border-solid border-gray-400 border rounded-xl">
             <tbody>
-              <tr  >
-                <td><span className="text-2xl font-bold ml-3">${detailRoom?.giaTien}</span>/đêm</td>
-              </tr>
-              <tr className="text-center">
-                <td>Ngày nhận phòng</td>
-                <td>Ngày trả phòng</td>
-              </tr>
-              <tr className="text-center">
-                <td colSpan={2}>
-                  <Menu
-                    onClick={onClick}
-                    style={{
-                      width: "100%",
-                    }}
-                    mode="inline"
-                    items={items}
-                  />
+              <tr>
+                <td>
+                  <span className="text-2xl font-bold ml-3">
+                    ${detailRoom?.giaTien}
+                  </span>
+                  /đêm
                 </td>
               </tr>
               <tr className="text-center">
-                <td colSpan={2} >
-                  <Button className="w-1/2 h-auto m-2 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white">Đặt phòng</Button>
+                <td>
+                  <Dropdown
+                    menu={{
+                      items,
+                    }}
+                  >
+                    <a onClick={(e) => e.preventDefault()}>
+                      <Space>
+                        Ngày nhận phòng
+                        <DownOutlined />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                  <Input />
+                </td>
+                <td>
+                  <Dropdown
+                    menu={{
+                      items,
+                    }}
+                  >
+                    <a onClick={(e) => e.preventDefault()}>
+                      <Space>
+                        Ngày trả phòng
+                        <DownOutlined />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                  <Input/>
+                </td>
+              </tr>
+              <tr>
+                <td className="text-lg text-left">
+                  Số lượng khách{" "}
+                  <span className="text-sm">(Từ 13 tuổi trở lên)</span>
+                </td>
+                <td className="">
+                  <div className="input-group flex justify-center">
+                    <div>
+                      <Button type="primary" shape="circle" onClick={decNum}>
+                        -
+                      </Button>
+                    </div>
+                    <Input
+                      className="form-control text-center w-12"
+                      value={num}
+                      onChange={handleChange}
+                    />
+                    <div>
+                      <Button type="primary" shape="circle" onClick={incNum}>
+                        +
+                      </Button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr className="text-center">
+                <td colSpan={2}>
+                  <Button className="w-1/2 h-auto m-2 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white">
+                    Đặt phòng
+                  </Button>
                 </td>
               </tr>
               <tr>
