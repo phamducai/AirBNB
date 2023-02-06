@@ -2,7 +2,7 @@ import React from "react";
 import { PieChartOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import { useState } from "react";
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,8 +32,15 @@ const items = [
 ];
 
 export default function AdminTemplate() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (location.pathname !== "/admin") {
+      navigate("/admin");
+    }
+  }, []);
   const [collapsed, setCollapsed] = useState(false);
 
   const {

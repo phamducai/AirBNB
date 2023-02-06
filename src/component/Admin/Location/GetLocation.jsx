@@ -37,9 +37,6 @@ function GetLocation() {
 
   const [imageUrl, setImageUrl] = useState();
 
-  const [form] = Form.useForm();
-  const onFinish = async (values) => {};
-
   return (
     getLocationById?.id && (
       <div>
@@ -54,7 +51,6 @@ function GetLocation() {
                 listType="picture-card"
                 className="avatar-uploader  "
                 showUploadList={false}
-                disabled={true}
               >
                 {imageUrl ? (
                   <img
@@ -78,12 +74,9 @@ function GetLocation() {
             <div>
               {" "}
               <Form
-                disabled={true}
                 {...formItemLayout}
                 className="col-span-9"
-                form={form}
                 name="register"
-                onFinish={onFinish}
                 initialValues={{
                   prefix: "84",
                 }}

@@ -23,11 +23,15 @@ import AddLocation from "component/Admin/Location/AddLocation";
 import UpdateRoom from "component/Admin/Room/UpdateRoom";
 import GetRoom from "component/Admin/Room/GetRoom";
 import AddRoom from "component/Admin/Room/AddRoom";
+import BookRoom from "component/Admin/Bookroom/BookRoom";
+import UpdateBookRoom from "component/Admin/Bookroom/UpdateBookRoom";
+import GetBookRoom from "component/Admin/Bookroom/GetBookRoom";
+import AddBookRoom from "component/Admin/Bookroom/AddBookRoom";
 
 function App() {
   const data = {
-    email: "phamducai@gmail.com",
-    password: "123",
+    email: "ai.phamphamducaiadsaf@gmail.com",
+    password: "123123",
   };
   const dispatch = useDispatch();
   useEffect(() => {
@@ -56,9 +60,17 @@ function App() {
           <Route path="location/addlocation" element={<AddLocation />} />
 
           <Route path="rooms" element={<Room />} />
-          <Route path="rooms/update/:id" element={<UpdateRoom />} />
-          <Route path="rooms/getbyid/:id" element={<GetRoom />} />
+          <Route path="rooms/update/:id/:Lid" element={<UpdateRoom />} />
+          <Route path="rooms/getbyid/:id/:Lid" element={<GetRoom />} />
           <Route path="rooms/addroom" element={<AddRoom />} />
+
+          <Route path="bookrooms" element={<BookRoom />} />
+          <Route
+            path="bookrooms/update/:id/:Lid"
+            element={<UpdateBookRoom />}
+          />
+          <Route path="bookrooms/getbyid/:id/:Lid" element={<GetBookRoom />} />
+          <Route path="bookrooms/addroom" element={<AddBookRoom />} />
         </Route>
       </Routes>
     </BrowserRouter>

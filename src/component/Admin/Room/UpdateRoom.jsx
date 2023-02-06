@@ -11,9 +11,10 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getlocationByIDAction } from "redux/actions/LocationAction";
 import {
   getRentalRoomByIDAction,
-  PostRentalRoomAction,
+  UpdateRentalRoomAction,
 } from "redux/actions/RetalRoomAction";
 
 const { TextArea } = Input;
@@ -55,15 +56,16 @@ const formItemLayout = {
 function UpdateRoom() {
   const [, forceUpdate] = useState({});
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id, Lid } = useParams();
 
   const { getRenderRoomrByID } = useSelector((state) => state.RoomReducers);
   console.log(getRenderRoomrByID);
   useEffect(() => {
     forceUpdate({});
     dispatch(getRentalRoomByIDAction(id));
+    dispatch(getlocationByIDAction(Lid));
   }, [dispatch, id]);
-
+  const { getLocationById } = useSelector((state) => state.LocationReducer);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const handleChange = (info) => {
@@ -73,36 +75,25 @@ function UpdateRoom() {
       setImageUrl(url);
     });
   };
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
+
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "This is a success add Room",
+      content: "This is a success Update Room",
     });
   };
   const error = () => {
     messageApi.open({
       type: "error",
-      content: "This is an error add Room",
+      content: "This is an error Update Room",
     });
   };
   const onFinish = async (values) => {
     console.log(values);
     const data = {
-      id: 0,
+      id: id,
       tenPhong: values.tenPhong,
       khach: values.khach,
       phongNgu: values.ngu,
@@ -124,13 +115,17 @@ function UpdateRoom() {
     };
     console.log(data);
     try {
-      await dispatch(PostRentalRoomAction(data));
+      await dispatch(UpdateRentalRoomAction(id, data));
       success();
     } catch (err) {
       error();
     }
   };
-
+  const onchangeLocation = (e) => {
+    dispatch({ type: "DELETE_LOCATION" });
+    dispatch(getlocationByIDAction(e.target.value));
+  };
+  console.log(getLocationById);
   return (
     getRenderRoomrByID?.id && (
       <div className="container">
@@ -285,14 +280,6 @@ function UpdateRoom() {
                 <Checkbox>irons</Checkbox>
               </Form.Item>
             </div>
-            {/* NAME ROOM */}
-            <Form.Item
-              label="Location ID"
-              name="maViTri"
-              initialValue={getRenderRoomrByID.maViTri}
-            >
-              <Input />
-            </Form.Item>
             <Form.Item label="Upload" valuePropName="fileList">
               <Upload
                 name="avatar"
@@ -322,6 +309,28 @@ function UpdateRoom() {
                 )}
               </Upload>
             </Form.Item>
+            {/* NAME ROOM */}
+            <Form.Item
+              label="Location ID"
+              name="maViTri"
+              initialValue={getRenderRoomrByID.maViTri}
+              onChange={onchangeLocation}
+            >
+              <Input />
+            </Form.Item>
+            <div className="w-8/12 mx-auto mt-5">
+              {" "}
+              LocationName: <span>{getLocationById?.tenViTri}</span>
+            </div>
+            <div className="w-8/12 mx-auto mt-5">
+              {" "}
+              City <span className="ml-16">:{getLocationById?.tinhThanh}</span>
+            </div>
+            <div className="w-8/12 mx-auto mt-5 mb-5">
+              {" "}
+              Country{" "}
+              <span className="ml-10 ">:{getLocationById?.quocGia}</span>
+            </div>
             <Form.Item label="Action">
               <Button type="primary" htmlType="submit">
                 Submit

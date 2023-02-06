@@ -32,6 +32,7 @@ export const AdminUserReducers = (state = inititalState, action) => {
       case "DELETE":
         draft.getUserByID = {};
         break;
+
       default:
         break;
     }

@@ -9,6 +9,7 @@ import {
 } from "redux/actions/RetalRoomAction";
 import { Fragment } from "react";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { genComponentStyleHook } from "antd/es/theme";
 const { Search } = Input;
 function Room() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function Room() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const room = useSelector((state) => state.RoomReducers.getAllRenderRoom);
-  console.log(room);
+
   const columns = [
     {
       title: "RoomID",
@@ -89,14 +90,14 @@ function Room() {
             <NavLink
               key="11"
               className=" mr-2  text-2xl"
-              to={`/admin/rooms/${room.id}`}
+              to={`/admin/rooms/getbyid/${room.id}/${room.maViTri}`}
             >
               <EyeOutlined />
             </NavLink>
             <NavLink
               key="10"
               className=" mr-1 text-2xl"
-              to={`/admin/rooms/update/${room.id}`}
+              to={`/admin/rooms/update/${room.id}/${room.maViTri}`}
             >
               <EditOutlined style={{ color: "blue" }} />{" "}
             </NavLink>

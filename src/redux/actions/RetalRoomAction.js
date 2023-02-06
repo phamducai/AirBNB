@@ -96,7 +96,7 @@ export const UpdateRentalRoomAction = (roomid, data) => {
       let result = await room.putRentalRoom(roomid, data);
       console.log("result", result);
     } catch (errors) {
-      console.log(errors.response?.data);
+      throw errors;
     }
   };
 };

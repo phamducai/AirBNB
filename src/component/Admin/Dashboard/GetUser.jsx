@@ -29,7 +29,7 @@ const formItemLayout = {
 
 function GetUser() {
   const navigate = useNavigate();
-  const [form] = Form.useForm();
+
   const [, forceUpdate] = useState({});
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -41,9 +41,6 @@ function GetUser() {
 
   const { getUserByID } = useSelector((state) => state.AdminUserReducers);
 
-  const onFinish = async (values) => {};
-
-  const onChange = (date, dateString) => {};
   return (
     getUserByID?.id && (
       <div>
@@ -68,9 +65,7 @@ function GetUser() {
               <Form
                 {...formItemLayout}
                 className="col-span-9"
-                form={form}
                 name="register"
-                onFinish={onFinish}
                 initialValues={{
                   prefix: "84",
                 }}
@@ -78,7 +73,6 @@ function GetUser() {
                   maxWidth: 600,
                 }}
                 scrollToFirstError
-                disabled={true}
               >
                 {/* Name */}
                 <Form.Item
@@ -121,7 +115,7 @@ function GetUser() {
                   name="birthday"
                   initialValue={dayjs(`${getUserByID.birthday}`, "DD/MM/YYYY")}
                 >
-                  <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
+                  <DatePicker format={"DD/MM/YYYY"} />
                 </Form.Item>
 
                 {/* phone Number */}
@@ -164,12 +158,6 @@ function GetUser() {
                   name="gender"
                   label="Gender"
                   initialValue={getUserByID.gender}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please select gender!",
-                    },
-                  ]}
                 >
                   <Select placeholder="select your gender">
                     <Option value={true}>Male</Option>
