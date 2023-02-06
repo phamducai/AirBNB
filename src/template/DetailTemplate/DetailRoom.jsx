@@ -1,16 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Row,
-  Tag,
-  Input,
-  Calendar,
-  Dropdown,
-  Space,
-  DatePicker,
-  Form,
-} from "antd";
+import { Button, Col, Row, Tag, Input, DatePicker, Form } from "antd";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import {
   AiOutlineFileDone,
@@ -27,20 +16,29 @@ import {
   fetchDetailRoomAction,
 } from "redux/actions/detailRoomAction";
 
+import dayjs from "dayjs";
+const { RangePicker } = DatePicker;
 const onPanelChange = (value, mode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
 };
-
-
-
 
 const DetailRoom = () => {
   const dispatch = useDispatch();
 
   const detailRoom = useSelector((state) => state.detailRoomReducer.detailRoom);
   const checkRoom = useSelector((state) => state.detailRoomReducer.checklRoom);
+  const [dateRange, setDateRange] = useState(null);
 
-  console.log(detailRoom);
+  const onChanges = (dates, dateStrings) => {
+    setDateRange(dateStrings);
+  };
+
+  let days = 0;
+  if (dateRange) {
+    const start = dayjs(dateRange[0]);
+    const end = dayjs(dateRange[1]);
+    days = end.diff(start, "day") + 1;
+  }
 
   useEffect(() => {
     dispatch(fetchDetailRoomAction(2));
@@ -64,7 +62,8 @@ const DetailRoom = () => {
 
   const [ngay, setNgay] = useState(0);
   const onChange = (date, dateString) => {
-    setNgay(dateString);    
+    console.log(date, dateString);
+    setNgay(dateString);
   };
 
   return (
@@ -145,74 +144,79 @@ const DetailRoom = () => {
         </Col>
         <Col span={8}>
           <div className="shadow-2xl">
-          <table className="rounded-2xl">
-            <tbody>
-              <tr>
-                <td>
-                  <span className="text-3xl font-bold ml-3 text-rose-500">
-                    ${detailRoom?.giaTien}
-                  </span>
-                  /đêm
-                </td>
-              </tr>
-              <tr className="text-center">
-                <td className="pl-4">
-                <Form.Item label="Ngày nhận phòng" name="ngayNhanPhong">
-                    <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
-                  </Form.Item>
-                </td>
-                <td className="pl-4">
-                <Form.Item label="Ngày trả phòng" name="ngayTraPhong">
-                    <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
-                  </Form.Item>
-                </td>
-              </tr>
-              <tr>
-                <td className="text-lg text-left pl-4">
-                  <p className="m-0">Số lượng khách</p>
-                  <span className="text-sm">(Từ 13 tuổi trở lên)</span>
-                </td>
-                <td>
-                  <div className="input-group flex justify-center">
-                    <div>
-                      <Button type="primary" shape="circle" onClick={decNum}>
-                        -
-                      </Button>
+            <table className="rounded-2xl">
+              <tbody>
+                <tr>
+                  <td>
+                    <span className="text-3xl font-bold ml-3 text-rose-500">
+                      ${detailRoom?.giaTien}
+                    </span>
+                    /đêm
+                  </td>
+                </tr>
+                <tr className="text-center">
+                  <td className="pl-4">
+                    <RangePicker format={"YYYY-MM-DD"} onChange={onChanges} />
+                    {/* <Form.Item label="Ngày nhận phòng" name="ngayNhanPhong">
+                      <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
+                    </Form.Item>
+                  </td>
+                  <td className="pl-4">
+                    <Form.Item label="Ngày trả phòng" name="ngayTraPhong">
+                      <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
+                    </Form.Item> */}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-lg text-left pl-4">
+                    <p className="m-0">Số lượng khách</p>
+                    <span className="text-sm">(Từ 13 tuổi trở lên)</span>
+                  </td>
+                  <td>
+                    <div className="input-group flex justify-center">
+                      <div>
+                        <Button type="primary" shape="circle" onClick={decNum}>
+                          -
+                        </Button>
+                      </div>
+                      <Input
+                        className="form-control text-center w-12"
+                        value={num}
+                        onChange={handleChange}
+                      />
+                      <div>
+                        <Button type="primary" shape="circle" onClick={incNum}>
+                          +
+                        </Button>
+                      </div>
                     </div>
-                    <Input
-                      className="form-control text-center w-12"
-                      value={num}
-                      onChange={handleChange}
-                    />
-                    <div>
-                      <Button type="primary" shape="circle" onClick={incNum}>
-                        +
-                      </Button>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr className="text-center">
-                <td colSpan={2}>
-                  <Button className="w-1/2 h-auto m-10 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white">
-                    Đặt phòng
-                  </Button>
-                </td>
-              </tr>
-              <tr>
-                <td className="text-lg text-left pl-4">${detailRoom?.giaTien} x 5 đêm</td>
-                <td className="text-lg text-right pr-4">${num}</td>
-              </tr>
-              <tr>
-                <td className="p-4" colSpan={2}><hr /></td>
-              </tr>              
-              <tr>
-                <td className="text-lg text-left pl-4 font-bold">Tổng</td>
-                <td className="text-lg text-right pr-4 font-bold">$221</td>
-              </tr>
-            </tbody>
-          </table>
-          </div>          
+                  </td>
+                </tr>
+                <tr className="text-center">
+                  <td colSpan={2}>
+                    <Button className="w-1/2 h-auto m-10 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white">
+                      Đặt phòng
+                    </Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-lg text-left pl-4">
+                    ${detailRoom?.giaTien} x 5 đêm
+                  </td>
+                  <td className="text-lg text-right pr-4">${num}</td>
+                </tr>
+                <tr>
+                  <td className="p-4" colSpan={2}>
+                    <hr />
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-lg text-left pl-4 font-bold">Tổng</td>
+                  <td className="text-lg text-right pr-4 font-bold">$221</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </Col>
       </Row>
     </div>

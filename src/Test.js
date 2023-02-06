@@ -1,33 +1,28 @@
-import { Button, message, Space } from "antd";
-const Test = () => {
-  const [messageApi, contextHolder] = message.useMessage();
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: "This is a success message",
-    });
+import React, { useState } from "react";
+import { DatePicker, Space } from "antd";
+import dayjs from "dayjs";
+const { RangePicker } = DatePicker;
+
+function Test() {
+  const [dateRange, setDateRange] = useState(null);
+
+  const onChanges = (dates, dateStrings) => {
+    setDateRange(dateStrings);
   };
-  const error = () => {
-    messageApi.open({
-      type: "error",
-      content: "This is an error message",
-    });
-  };
-  const warning = () => {
-    messageApi.open({
-      type: "warning",
-      content: "This is a warning message",
-    });
-  };
+
+  let days = 0;
+  if (dateRange) {
+    const start = dayjs(dateRange[0]);
+    const end = dayjs(dateRange[1]);
+    days = end.diff(start, "day") + 1;
+  }
+
   return (
-    <>
-      {contextHolder}
-      <Space>
-        <Button onClick={success}>Success</Button>
-        <Button onClick={error}>Error</Button>
-        <Button onClick={warning}>Warning</Button>
-      </Space>
-    </>
+    <Space direction="vertical" size={12}>
+      <RangePicker format={"YYYY-MM-DD"} onChange={onChanges} />
+      <p>Number of days: {days}</p>
+    </Space>
   );
-};
+}
+
 export default Test;
