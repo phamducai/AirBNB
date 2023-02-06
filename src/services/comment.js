@@ -14,15 +14,13 @@ export class Comments extends baseService {
   };
 
   putComment = (id, data) => {
-    return this.put(`/api/binh-luan?id=${id}`, data);
+    return this.put(`/api/binh-luan/${id}`, data);
   };
   deleteComment = (id) => {
-    return this.delete(`/api/binh-luan?id=${id}`);
+    return this.delete(`/api/binh-luan/${id}`);
   };
   getCommentsbyRoom = (roomid) => {
-    return this.get(
-      `/api/binh-luan/lay-binh-luan-theo-phong?MaPhong=${roomid}`
-    );
+    return this.get(`/api/binh-luan/lay-binh-luan-theo-phong/${roomid}`);
   };
 }
 

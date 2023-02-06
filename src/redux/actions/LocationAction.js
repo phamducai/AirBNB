@@ -1,6 +1,5 @@
 import {
   GET_ALL_LOCATION_BY_ID,
-  GET_PAGINATION_SEARCH,
   GET_ALL_LOCATION,
 } from "redux/actions/types/LocationType";
 
@@ -27,7 +26,7 @@ export const PostlocationAction = (data) => {
       let result = await location.postLocation(data);
       console.log(result);
     } catch (errors) {
-      console.log(errors.response?.data);
+      throw errors;
     }
   };
 };
@@ -37,15 +36,17 @@ export const GetPaginationSearchLocationAction = (
   keyword = ""
 ) => {
   return async (dispatch) => {
+    console.log(pageIndex, pageSize);
     try {
       const result = await location.getSearchbyPage(
-        (pageIndex = 1),
-        (pageSize = 10),
-        (keyword = "")
+        pageIndex,
+        pageSize,
+        keyword
       );
+      console.log(result);
       if (result.data.statusCode === 200) {
         dispatch({
-          type: GET_PAGINATION_SEARCH,
+          type: GET_ALL_LOCATION,
           payload: result.data.content,
         });
       }
@@ -77,16 +78,18 @@ export const UpdatelocationAction = (locationID, data) => {
       let result = await location.putLocaitonById(locationID, data);
       console.log("result", result);
     } catch (errors) {
-      console.log(errors.response?.data);
+      throw errors;
     }
   };
 };
 //DELETE
 
 export const deletelocationAction = (id) => {
+  console.log(id);
   return async (dispatch) => {
     try {
       const result = await location.deleteLocaion(id);
+
       console.log("result", result.data.content);
     } catch (errors) {
       console.log("errors", errors.response?.data);

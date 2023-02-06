@@ -5,20 +5,18 @@ import { Auth } from "./reducers/AuthReducer";
 import { CommentsReducer } from "./reducers/CommentsReducer";
 import { AdminUserReducers } from "./reducers/AdminUserReducer";
 import { LocationReducer } from "./reducers/LocationReducer";
-import { RentalRoomReducers } from "./reducers/RoomReducer";
+
 import { BookRoomReducer } from "./reducers/BookRoomReducer";
-import  detailRoomReducer  from "./reducers/detailRoomReducer";
+import { RoomReducers } from "./reducers/RoomReducer";
 
 const rootReducer = combineReducers({
   Auth,
   CommentsReducer,
   AdminUserReducers,
   LocationReducer,
-  RentalRoomReducers,
+  RoomReducers,
   BookRoomReducer,
-  detailRoomReducer, 
 });
-
 
 const store = createStore(
   rootReducer,

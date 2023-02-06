@@ -8,7 +8,7 @@ const inititalState = {
   // /api/binh-luan
   getComments: [],
   // /api/binh-luan/lay-binh-luan-theo-phong/{MaPhong}
-  getCommentsWithroom: {},
+  getCommentsWithroom: [],
 };
 export const CommentsReducer = (state = inititalState, action) => {
   return produce(state, (draft) => {

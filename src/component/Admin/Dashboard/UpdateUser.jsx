@@ -75,7 +75,7 @@ function UpdateUser() {
   }, [dispatch, id]);
 
   const { getUserByID } = useSelector((state) => state.AdminUserReducers);
-
+  console.log(getUserByID);
   const onFinish = async (values) => {
     const data = {
       id: id,

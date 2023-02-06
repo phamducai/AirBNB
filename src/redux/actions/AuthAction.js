@@ -6,14 +6,15 @@ export const LoginAction = (data) => {
   return async (dispatch) => {
     try {
       const result = await auth.signin(data);
-      if (result.data.statusCode === 200) {
+      if (result.statusCode === 200) {
         dispatch({
           type: LOGIN_ACTION,
           payload: result.data.content,
         });
-        localStorage.setItem("token", result.data.content.token);
+        console.log(result.data.content.token);
       }
-      console.log("result", result);
+      localStorage.setItem("token", result.data.content.token);
+      console.log("dmm", result.data.content.token);
     } catch (error) {
       throw error;
     }

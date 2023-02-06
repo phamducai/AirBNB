@@ -40,7 +40,8 @@ export class Room extends baseService {
   //  GET /api/phong-thue/{id}
 
   getRentalRoombyID = (roomid) => {
-    return this.get(`/api/phong-thue?${roomid}`);
+    console.log(roomid);
+    return this.get(`/api/phong-thue/${roomid}`);
   };
   //  put /api/phong-thue/{id}
   putRentalRoom = (rommid, data) => {
@@ -48,7 +49,7 @@ export class Room extends baseService {
   };
   //  delete /api/phong-thue/{id}
   deleteRentalRoom = (rommid) => {
-    return this.delete(`/api/phong-thue?id=${rommid}`);
+    return this.delete(`/api/phong-thue/${rommid}`);
   };
   //   /api/dat-phong/lay-theo-nguoi-dung/{MaNguoiDung}
   //  POST /api/users/upload-avatar

@@ -1,3 +1,4 @@
+import react, { useEffect } from "react";
 import AddUser from "component/Admin/Dashboard/AddUser";
 import Dashboard from "component/Admin/Dashboard/Dashboard";
 import GetUser from "component/Admin/Dashboard/GetUser";
@@ -5,7 +6,7 @@ import UpdateUser from "component/Admin/Dashboard/UpdateUser";
 import Location from "component/Admin/Location/Location";
 import Room from "component/Admin/Room/Room";
 import Home from "pages/Home/Home";
-import react, { useEffect } from "react";
+
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { LoginAction } from "redux/actions/AuthAction";
@@ -16,6 +17,12 @@ import Test from "Test";
 
 import HomeTemplate from "templates/HomeTemplate/HomeTemplate";
 import Detail from "pages/Detail/Detail";
+import UpdateLocation from "component/Admin/Location/UpdateLocation";
+import GetLocation from "component/Admin/Location/GetLocation";
+import AddLocation from "component/Admin/Location/AddLocation";
+import UpdateRoom from "component/Admin/Room/UpdateRoom";
+import GetRoom from "component/Admin/Room/GetRoom";
+import AddRoom from "component/Admin/Room/AddRoom";
 
 function App() {
   const data = {
@@ -42,8 +49,16 @@ function App() {
           <Route path="updateUser/:id" element={<UpdateUser />} />
           <Route path="GetUser/:id" element={<GetUser />} />
           <Route path="addUser" element={<AddUser />} />
-          <Route path="rooms" element={<Room />} />
+
           <Route path="location" element={<Location />} />
+          <Route path="location/update/:id" element={<UpdateLocation />} />
+          <Route path="location/getbyid/:id" element={<GetLocation />} />
+          <Route path="location/addlocation" element={<AddLocation />} />
+
+          <Route path="rooms" element={<Room />} />
+          <Route path="rooms/update/:id" element={<UpdateRoom />} />
+          <Route path="rooms/getbyid/:id" element={<GetRoom />} />
+          <Route path="rooms/addroom" element={<AddRoom />} />
         </Route>
       </Routes>
     </BrowserRouter>

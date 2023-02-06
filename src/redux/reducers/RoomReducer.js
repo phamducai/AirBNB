@@ -1,7 +1,6 @@
 import {
   GET_ALL_RENTAL_ROOM,
   GET_ALL_RENTAL_ROOM_BY_ID,
-  GET_PAGINATION_SEARCH,
   GET_SEARCH_RENTAL_ROOM_BY_LOCATION,
 } from "redux/actions/types/RoomType";
 import produce from "immer";
@@ -14,7 +13,7 @@ const inititalState = {
   getPaginationSearchingRenderRoom: null,
   getSearchByRenderRoom: null,
 };
-export const RentalRoomReducers = (state = inititalState, action) => {
+export const RoomReducers = (state = inititalState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
       case GET_ALL_RENTAL_ROOM:
@@ -23,8 +22,8 @@ export const RentalRoomReducers = (state = inititalState, action) => {
       case GET_ALL_RENTAL_ROOM_BY_ID:
         draft.getRenderRoomrByID = action.payload;
         break;
-      case GET_PAGINATION_SEARCH:
-        draft.getPaginationSearchingRenderRoom = action.payload;
+      case "DELETE_ROOM":
+        draft.getRenderRoomrByID = null;
         break;
       case GET_SEARCH_RENTAL_ROOM_BY_LOCATION:
         draft.getSearchByRenderRoom = action.payload;

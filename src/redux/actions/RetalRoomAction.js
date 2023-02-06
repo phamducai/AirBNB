@@ -2,7 +2,6 @@ import {
   GET_ALL_RENTAL_ROOM,
   GET_ALL_RENTAL_ROOM_BY_ID,
   GET_PAGINATION_SEARCH,
-  GET_SEARCH_RENTAL_ROOM_BY_LOCATION,
 } from "redux/actions/types/RoomType";
 import { room } from "services/room";
 
@@ -38,7 +37,7 @@ export const getRentalRoomByLocationAction = (locationid) => {
     try {
       const result = await room.getRentalRoombyLocaltionID(locationid);
       dispatch({
-        type: GET_SEARCH_RENTAL_ROOM_BY_LOCATION,
+        type: GET_ALL_RENTAL_ROOM,
         payload: result.data.content,
       });
     } catch (errors) {
@@ -77,10 +76,13 @@ export const getRentalRoomByIDAction = (roomid) => {
   return async (dispatch) => {
     try {
       const result = await room.getRentalRoombyID(roomid);
-      dispatch({
-        type: GET_ALL_RENTAL_ROOM_BY_ID,
-        payload: result.data.content,
-      });
+      console.log(result);
+
+      if (result.data.statusCode === 200)
+        dispatch({
+          type: GET_ALL_RENTAL_ROOM_BY_ID,
+          payload: result.data.content,
+        });
     } catch (errors) {
       console.log("errors", errors);
     }

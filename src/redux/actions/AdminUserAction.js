@@ -28,7 +28,7 @@ export const PostAdminUserAction = (data) => {
       let result = await adminuser.postAminUser(data);
       console.log(result);
     } catch (errors) {
-      console.log(errors.response?.data);
+      throw errors;
     }
   };
 };

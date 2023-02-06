@@ -9,10 +9,9 @@ const inititalState = {
   // /api/dat-phong
   getAllUser: [],
   //   /api/dat-phong/{id}
-  getUserByID: null,
+  getUserByID: {},
   // /api/dat-phong/lay-theo-nguoi-dung/{MaNguoiDung}
   getPaginationSearching: null,
-  getSearchByUser: null,
 };
 export const AdminUserReducers = (state = inititalState, action) => {
   return produce(state, (draft) => {
@@ -27,7 +26,11 @@ export const AdminUserReducers = (state = inititalState, action) => {
         draft.getPaginationSearching = action.payload;
         break;
       case GET_SEARCH_USER_BY_USERS:
-        draft.getSearchByUser = action.payload;
+        draft.getAllUser = action.payload;
+        break;
+
+      case "DELETE":
+        draft.getUserByID = {};
         break;
       default:
         break;

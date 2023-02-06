@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   deleteAdminUserAction,
+  getAdminUserByNameUserAction,
   getAllAdminUserAction,
 } from "redux/actions/AdminUserAction";
-import { Fragment } from "react";
+
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
@@ -17,11 +18,11 @@ function Dashboard() {
 
   useEffect(() => {
     dispatch(getAllAdminUserAction());
+    dispatch({ type: "DELETE" });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const users = useSelector((state) => state.AdminUserReducers.getAllUser);
-  console.log(users);
 
   const columns = [
     {
@@ -94,7 +95,7 @@ function Dashboard() {
                 onClick={() => {
                   if (
                     window.confirm(
-                      "Are you sure you want to delete" + user.id + "?"
+                      "Are you sure you want to delete" + user.name + "?"
                     )
                   ) {
                     dispatch(deleteAdminUserAction(user.id));
@@ -112,17 +113,22 @@ function Dashboard() {
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
+  const onsearch = async (e) => {
+    await dispatch(getAdminUserByNameUserAction(e.target.value));
+  };
   return (
     <div>
-      <h1 className="text-3xl mb-5">Quản Lý Người Dùng</h1>
+      <h1 className="text-3xl mb-5">User Management</h1>
       <Link to="/admin/addUser">
-        <Button className="mb-5">Thêm Người Dùng</Button>
+        <Button className="mb-5">Add User</Button>
       </Link>
       <Search
-        placeholder="tìm kiếm người dùng"
+        placeholder="
+        User Search By Name"
         enterButton="Search"
         size="large"
         name="search"
+        onChange={onsearch}
       />
       <Table
         columns={columns}

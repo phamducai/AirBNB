@@ -17,15 +17,15 @@ function getItem(label, key, icon, children) {
 }
 
 const items = [
-  getItem(<Link to="/admin"> Quản Lý Người Dùng</Link>, "1", <UserOutlined />),
+  getItem(<Link to="/admin"> User Management</Link>, "1", <UserOutlined />),
 
   getItem(
-    <Link to="/admin/location"> Quản Lý Thông Tin Vị Trí</Link>,
+    <Link to="/admin/location">Location Management</Link>,
     "2",
     <PieChartOutlined />
   ),
   getItem(
-    <Link to="/admin/rooms"> Quản Lý Thông Tin Phòng</Link>,
+    <Link to="/admin/rooms"> Room Management</Link>,
     "3",
     <PieChartOutlined />
   ),

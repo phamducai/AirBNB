@@ -11,12 +11,12 @@ import {
   AiOutlineBorderOuter,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCheckRoomAction,
-  fetchDetailRoomAction,
-} from "redux/actions/detailRoomAction";
+import { getRentalRoomByIDAction } from "redux/actions/RetalRoomAction";
+
+import { PostRoomAction } from "redux/actions/BookRoomAction";
 
 import dayjs from "dayjs";
+import { getCommentByRoomAction } from "redux/actions/CommentsAction";
 const { RangePicker } = DatePicker;
 const onPanelChange = (value, mode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
@@ -25,8 +25,10 @@ const onPanelChange = (value, mode) => {
 const DetailRoom = () => {
   const dispatch = useDispatch();
 
-  const detailRoom = useSelector((state) => state.detailRoomReducer.detailRoom);
-  const checkRoom = useSelector((state) => state.detailRoomReducer.checklRoom);
+  const detailRoom = useSelector(
+    (state) => state.RoomReducers.getRenderRoomrByID
+  );
+
   const [dateRange, setDateRange] = useState(null);
 
   const onChanges = (dates, dateStrings) => {
@@ -41,8 +43,8 @@ const DetailRoom = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchDetailRoomAction(2));
-    dispatch(fetchCheckRoomAction(2));
+    dispatch(getRentalRoomByIDAction(1));
+    dispatch(getCommentByRoomAction(3));
   }, []);
 
   const [num, setNum] = useState(0);
@@ -60,12 +62,23 @@ const DetailRoom = () => {
     setNum(e.target.value);
   };
 
-  const [ngay, setNgay] = useState(0);
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
-    setNgay(dateString);
+  const PostData = async () => {
+    const data = {
+      id: 0,
+      maPhong: 2,
+      ngayDen: dateRange ? dateRange[0] : 0,
+      ngayDi: dateRange ? dateRange[1] : 0,
+      soLuongKhach: num,
+      maNguoiDung: 2171,
+    };
+    await dispatch(PostRoomAction(data));
+    console.log(data);
   };
-
+  //Binh Luan
+  const Comment = useSelector(
+    (state) => state.CommentsReducer.getCommentsWithroom
+  );
+  console.log(Comment);
   return (
     <div className="container m-auto">
       <h1 className="mt-5 mb-2">{detailRoom?.tenPhong}</h1>
@@ -157,14 +170,6 @@ const DetailRoom = () => {
                 <tr className="text-center">
                   <td className="pl-4">
                     <RangePicker format={"YYYY-MM-DD"} onChange={onChanges} />
-                    {/* <Form.Item label="Ngày nhận phòng" name="ngayNhanPhong">
-                      <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
-                    </Form.Item>
-                  </td>
-                  <td className="pl-4">
-                    <Form.Item label="Ngày trả phòng" name="ngayTraPhong">
-                      <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
-                    </Form.Item> */}
                   </td>
                 </tr>
                 <tr>
@@ -194,7 +199,10 @@ const DetailRoom = () => {
                 </tr>
                 <tr className="text-center">
                   <td colSpan={2}>
-                    <Button className="w-1/2 h-auto m-10 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white">
+                    <Button
+                      className="w-1/2 h-auto m-10 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white"
+                      onClick={PostData}
+                    >
                       Đặt phòng
                     </Button>
                   </td>

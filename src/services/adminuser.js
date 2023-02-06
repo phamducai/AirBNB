@@ -44,7 +44,7 @@ export class AdminUser extends baseService {
   //   /api/users/search/{TenNguoiDung}
 
   getSearchNameUser = (nameUser) => {
-    return this.get(`/api/users/search/?TenNguoiDung=${nameUser}`);
+    return this.get(`/api/users/search/${nameUser}`);
   };
   //  POST /api/users/upload-avatar
   postUploadAminUserAvatar = (formFile) => {

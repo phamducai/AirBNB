@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Checkbox, DatePicker, Form, Input, Select } from "antd";
+import { DatePicker, Form, Input, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  getAdminUserByIDAction,
-  UpdateAdminUserAction,
-} from "redux/actions/AdminUserAction";
+import { getAdminUserByIDAction } from "redux/actions/AdminUserAction";
 import dayjs from "dayjs";
 import { Avatar } from "antd";
 
@@ -29,18 +26,7 @@ const formItemLayout = {
     },
   },
 };
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+
 function GetUser() {
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -55,17 +41,7 @@ function GetUser() {
 
   const { getUserByID } = useSelector((state) => state.AdminUserReducers);
 
-  const onFinish = async (values) => {
-    const data = {
-      id: id,
-      name: values.name,
-      email: values.email,
-      phone: values.phone,
-      birthday: dayjs(values.birthday).format("DD/MM/YYYY"),
-      gender: values.gender,
-      role: values.typeUser,
-    };
-  };
+  const onFinish = async (values) => {};
 
   const onChange = (date, dateString) => {};
   return (
