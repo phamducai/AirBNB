@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Row, Tag, Input, Calendar, Dropdown, Space } from "antd";
+import {
+  Button,
+  Col,
+  Row,
+  Tag,
+  Input,
+  Calendar,
+  Dropdown,
+  Space,
+  DatePicker,
+  Form,
+} from "antd";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import {
   AiOutlineFileDone,
@@ -20,16 +31,8 @@ const onPanelChange = (value, mode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
 };
 
-const items = [
-  {
-    key: "1",
-    label: (
-      <div className="w-80">
-        <Calendar fullscreen={false} onPanelChange={onPanelChange} value={""} />
-      </div>
-    ),
-  },
-];
+
+
 
 const DetailRoom = () => {
   const dispatch = useDispatch();
@@ -39,11 +42,9 @@ const DetailRoom = () => {
 
   console.log(detailRoom);
 
-  
-
   useEffect(() => {
     dispatch(fetchDetailRoomAction(2));
-    dispatch(fetchCheckRoomAction(2));    
+    dispatch(fetchCheckRoomAction(2));
   }, []);
 
   const [num, setNum] = useState(0);
@@ -61,10 +62,15 @@ const DetailRoom = () => {
     setNum(e.target.value);
   };
 
+  const [ngay, setNgay] = useState(0);
+  const onChange = (date, dateString) => {
+    setNgay(dateString);    
+  };
+
   return (
     <div className="container m-auto">
       <h1 className="mt-5 mb-2">{detailRoom?.tenPhong}</h1>
-      <img className="w-full mb-5" src={detailRoom?.hinhAnh} alt="" />
+      <img className="w-full mb-9" src={detailRoom?.hinhAnh} alt="" />
       <Row>
         <Col span={16}>
           <div className="pr-52">
@@ -138,54 +144,35 @@ const DetailRoom = () => {
           </div>
         </Col>
         <Col span={8}>
-          <table className="w-full border-solid border-gray-400 border rounded-xl">
+          <div className="shadow-2xl">
+          <table className="rounded-2xl">
             <tbody>
               <tr>
                 <td>
-                  <span className="text-2xl font-bold ml-3">
+                  <span className="text-3xl font-bold ml-3 text-rose-500">
                     ${detailRoom?.giaTien}
                   </span>
                   /đêm
                 </td>
               </tr>
               <tr className="text-center">
-                <td>
-                  <Dropdown
-                    menu={{
-                      items,
-                    }}
-                  >
-                    <a onClick={(e) => e.preventDefault()}>
-                      <Space>
-                        Ngày nhận phòng
-                        <DownOutlined />
-                      </Space>
-                    </a>
-                  </Dropdown>
-                  <Input />
+                <td className="pl-4">
+                <Form.Item label="Ngày nhận phòng" name="ngayNhanPhong">
+                    <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
+                  </Form.Item>
                 </td>
-                <td>
-                  <Dropdown
-                    menu={{
-                      items,
-                    }}
-                  >
-                    <a onClick={(e) => e.preventDefault()}>
-                      <Space>
-                        Ngày trả phòng
-                        <DownOutlined />
-                      </Space>
-                    </a>
-                  </Dropdown>
-                  <Input/>
+                <td className="pl-4">
+                <Form.Item label="Ngày trả phòng" name="ngayTraPhong">
+                    <DatePicker onChange={onChange} format={"DD/MM/YYYY"} />
+                  </Form.Item>
                 </td>
               </tr>
               <tr>
-                <td className="text-lg text-left">
-                  Số lượng khách{" "}
+                <td className="text-lg text-left pl-4">
+                  <p className="m-0">Số lượng khách</p>
                   <span className="text-sm">(Từ 13 tuổi trở lên)</span>
                 </td>
-                <td className="">
+                <td>
                   <div className="input-group flex justify-center">
                     <div>
                       <Button type="primary" shape="circle" onClick={decNum}>
@@ -207,21 +194,25 @@ const DetailRoom = () => {
               </tr>
               <tr className="text-center">
                 <td colSpan={2}>
-                  <Button className="w-1/2 h-auto m-2 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white">
+                  <Button className="w-1/2 h-auto m-10 bg-rose-500 p-2 text-xl rounded-lg font-bold text-white">
                     Đặt phòng
                   </Button>
                 </td>
               </tr>
               <tr>
-                <td>$45 x 5 đêm</td>
-                <td>$221</td>
+                <td className="text-lg text-left pl-4">${detailRoom?.giaTien} x 5 đêm</td>
+                <td className="text-lg text-right pr-4">${num}</td>
               </tr>
               <tr>
-                <td>Tổng</td>
-                <td>$221</td>
+                <td className="p-4" colSpan={2}><hr /></td>
+              </tr>              
+              <tr>
+                <td className="text-lg text-left pl-4 font-bold">Tổng</td>
+                <td className="text-lg text-right pr-4 font-bold">$221</td>
               </tr>
             </tbody>
           </table>
+          </div>          
         </Col>
       </Row>
     </div>
