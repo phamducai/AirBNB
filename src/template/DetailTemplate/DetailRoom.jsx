@@ -47,6 +47,10 @@ const DetailRoom = () => {
     dispatch(getCommentByRoomAction(3));
   }, []);
 
+  const Comment = useSelector(
+    (state) => state.CommentsReducer.getCommentsWithroom
+  );
+
   const [num, setNum] = useState(0);
   const incNum = () => {
     if (num < 5) {
@@ -75,9 +79,7 @@ const DetailRoom = () => {
     console.log(data);
   };
   //Binh Luan
-  const Comment = useSelector(
-    (state) => state.CommentsReducer.getCommentsWithroom
-  );
+ 
   console.log(Comment);
   return (
     <div className="container m-auto">
