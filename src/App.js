@@ -65,11 +65,8 @@ function App() {
           <Route path="rooms/addroom" element={<AddRoom />} />
 
           <Route path="bookrooms" element={<BookRoom />} />
-          <Route
-            path="bookrooms/update/:id/:Lid"
-            element={<UpdateBookRoom />}
-          />
-          <Route path="bookrooms/getbyid/:id/:Lid" element={<GetBookRoom />} />
+          <Route path="bookrooms/update/:id" element={<UpdateBookRoom />} />
+          <Route path="bookrooms/getbyid/:id" element={<GetBookRoom />} />
           <Route path="bookrooms/addroom" element={<AddBookRoom />} />
         </Route>
       </Routes>
