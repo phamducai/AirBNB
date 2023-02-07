@@ -4,7 +4,7 @@ import Home from "pages/Home/Home";
 
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { LoginAction } from "redux/actions/AuthAction";
+// import { LoginAction } from "redux/actions/AuthAction";
 import { getAllCommentsAction } from "redux/actions/CommentsAction";
 import AdminTemplate from "templates/AdminTemplate/AdminTemplate";
 
@@ -28,27 +28,37 @@ import BookRoom from "pages/Admin/Bookroom/BookRoom";
 import UpdateBookRoom from "pages/Admin/Bookroom/UpdateBookRoom";
 import AddBookRoom from "pages/Admin/Bookroom/AddBookRoom";
 import GetBookRoom from "pages/Admin/Bookroom/GetBookRoom";
+import Login from "pages/Login/Login";
+import Register from "pages/Resgiter/Register";
+import { LoginAction } from "redux/actions/AuthAction";
 
 function App() {
+  let user = JSON.parse(localStorage.getItem("data"));
+
   const data = {
-    email: "ai.phamphamducaiadsaf@gmail.com",
-    password: "123123",
+    email: user?.email,
+    password: user?.password,
   };
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCommentsAction());
-    dispatch(LoginAction(data));
+    if (user) {
+      dispatch(LoginAction(data));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="detail/:id" element={<Detail />} />
         <Route path="test" element={<Test />} />
 
         <Route path="" element={<HomeTemplate />}>
           <Route index path="" element={<Home />}></Route>
         </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
 
         <Route path="admin" element={<AdminTemplate />}>
           <Route index path="" element={<Dashboard />} />

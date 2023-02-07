@@ -1,6 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Col, Row, Tag, Input, DatePicker, Form, Modal } from "antd";
+import { Button, Col, Row, Input, DatePicker, Modal } from "antd";
 import {
   AntDesignOutlined,
   CalendarOutlined,
@@ -24,9 +25,6 @@ import dayjs from "dayjs";
 import { getCommentByRoomAction } from "redux/actions/CommentsAction";
 
 const { RangePicker } = DatePicker;
-const onPanelChange = (value, mode) => {
-  console.log(value.format("YYYY-MM-DD"), mode);
-};
 
 // Detail Room
 const DetailRoom = () => {
@@ -44,6 +42,8 @@ const DetailRoom = () => {
   useEffect(() => {
     dispatch(getRentalRoomByIDAction(1));
     dispatch(getCommentByRoomAction(3));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // date

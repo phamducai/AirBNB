@@ -1,19 +1,19 @@
-/** @type {import('tailwindcss').Config} */
+// /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: ["./src/**/*.{html,js,jsx}"],
+
   theme: {
     extend: {
-      backgroundColor: {
-        "bg-btn": "rgba(246, 246, 246, 0.5)",
-      },
-      height: {
-        200: "50rem",
-        99: "49rem",
+      textShadow: {
+        md: "2px 2px 4px rgb(0 0 0 / 45%);",
       },
     },
   },
+
   plugins: [],
   corePlugins: {
     preflight: false,
   },
+  fontFamily: {},
 };
