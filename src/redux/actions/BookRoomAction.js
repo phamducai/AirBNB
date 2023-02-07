@@ -27,7 +27,7 @@ export const PostRoomAction = (data) => {
       let result = await bookroom.postRoom(data);
       console.log(result);
     } catch (errors) {
-      console.log(errors.response?.data);
+      throw errors;
     }
   };
 };

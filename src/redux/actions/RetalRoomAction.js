@@ -115,11 +115,12 @@ export const deleteRentalRoomAction = (id) => {
 };
 
 // POST /api/users
-export const UpLoadAvatarRoomAction = (data) => {
-  return async (dispatch) => {
+export const UpLoadAvatarRoomAction = (data, roomid) => {
+  let result = room.postUploadavatarRentalRoom(data, roomid);
+  console.log(result);
+  console.log(data, roomid);
+  return async (next) => {
     try {
-      let result = await room.postUploadRentalRoom(data);
-      console.log(result);
     } catch (errors) {
       console.log(errors.response?.data);
     }

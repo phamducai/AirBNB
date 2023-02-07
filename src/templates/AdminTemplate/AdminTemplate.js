@@ -29,6 +29,11 @@ const items = [
     "3",
     <PieChartOutlined />
   ),
+  getItem(
+    <Link to="/admin/bookrooms"> Book Room Management</Link>,
+    "4",
+    <PieChartOutlined />
+  ),
 ];
 
 export default function AdminTemplate() {
@@ -37,9 +42,9 @@ export default function AdminTemplate() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (location.pathname !== "/admin") {
-      navigate("/admin");
-    }
+    // if (location.pathname !== "/admin") {
+    //   navigate("/admin");
+    // }
   }, []);
   const [collapsed, setCollapsed] = useState(false);
 

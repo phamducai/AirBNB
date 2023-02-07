@@ -45,7 +45,7 @@ export class Room extends baseService {
   };
   //  put /api/phong-thue/{id}
   putRentalRoom = (rommid, data) => {
-    return this.put(`/api/phong-thue/${rommid}`, data);
+    return this.put(`/api/phong-thue?id=${rommid}`, data);
   };
   //  delete /api/phong-thue/{id}
   deleteRentalRoom = (rommid) => {
@@ -53,7 +53,8 @@ export class Room extends baseService {
   };
   //   /api/dat-phong/lay-theo-nguoi-dung/{MaNguoiDung}
   //  POST /api/users/upload-avatar
-  postUploadRentalRoom = (formFile, roomid) => {
+  postUploadavatarRentalRoom = (formFile, roomid) => {
+    console.log(formFile, roomid);
     return this.post(
       `/api/phong-thue/upload-hinh-phong?maPhong=${roomid}`,
       formFile
