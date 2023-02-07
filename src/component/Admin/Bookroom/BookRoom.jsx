@@ -11,7 +11,10 @@ import dayjs from "dayjs";
 // } from "redux/actions/AdminUserAction";
 
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { getAllRoomAction } from "redux/actions/BookRoomAction";
+import {
+  deleteRooomAction,
+  getAllRoomAction,
+} from "redux/actions/BookRoomAction";
 import { getAllRentalRoomAction } from "redux/actions/RetalRoomAction";
 import _ from "lodash";
 import { getAlllocationAction } from "redux/actions/LocationAction";
@@ -37,24 +40,25 @@ function BookRoom() {
     (state) => state.LocationReducer.getAllLocation
   );
 
-  let uniqueArray = _.uniqBy(BookRoom, "maPhong");
+  //   let uniqueArray = _.uniqBy(BookRoom, "maPhong");
 
+  console.log(BookRoom);
   const AllLocation = AllLocations.map(({ hinhAnh, ...rest }) => rest);
 
-  let combinedArrays = uniqueArray?.map((room1) => {
+  let combinedArrays = BookRoom?.map((room1) => {
     let match = room?.find((item) => room1.maPhong === item.id);
     return { ...match, ...room1 };
   });
 
-  let combinedArray = combinedArrays.filter((obj) => obj.maPhong !== 0);
+  //   let combinedArray = combinedArrays.filter((obj) => obj.maPhong !== 0);
 
-  let combinedArray2 = combinedArray?.map((roomss) => {
+  let combinedArray2 = combinedArrays?.map((roomss) => {
     let location = AllLocation?.find(
       (location) => roomss.maViTri === location.id
     );
     return { ...location, ...roomss };
   });
-  console.log(combinedArray2);
+
   const columns = [
     {
       title: "Room ID",
@@ -134,14 +138,14 @@ function BookRoom() {
             <NavLink
               key="11"
               className=" mr-2  text-2xl"
-              to={`/admin/bookrooms/update/:id/${item.id}`}
+              to={`/admin/bookrooms/getbyid/${item.id}/${item.maNguoiDung}/${item.maViTri}`}
             >
               <EyeOutlined />
             </NavLink>
             <NavLink
               key="10"
               className=" mr-1 text-2xl"
-              to={`/admin/bookrooms/update/${item.id}`}
+              to={`/admin/bookrooms/update/${item.id}/${item.maNguoiDung}/${item.maViTri}`}
             >
               <EditOutlined style={{ color: "blue" }} />{" "}
             </NavLink>
@@ -151,11 +155,14 @@ function BookRoom() {
                 onClick={() => {
                   if (
                     window.confirm(
-                      "Are you sure you want to delete" + item.tenPhong + "?"
+                      "Are you sure you want to delete" + item.id + "?"
                     )
                   ) {
-                    // dispatch(deleteAdminUserAction(user.id));
-                    // dispatch(getAllAdminUserAction());
+                    dispatch(deleteRooomAction(item.id));
+                    dispatch(getAllRoomAction());
+                    dispatch(getAllRentalRoomAction());
+                    dispatch(getAlllocationAction());
+                    alert("DELETE Success");
                   }
                 }}
               />{" "}
@@ -194,7 +201,7 @@ function BookRoom() {
           columns={columns}
           dataSource={data}
           onChange={onChange}
-          rowKey={"maPhong"}
+          rowKey={"id"}
         />
       </div>
     )

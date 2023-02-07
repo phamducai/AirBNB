@@ -47,7 +47,7 @@ const tailFormItemLayout = {
 };
 function AddBookRoom() {
   const [dateRange, setDateRange] = useState(null);
-
+  const [selectedValue, setSelectedValue] = useState("");
   const onChanges = (dates) => {
     setDateRange(dates);
   };
@@ -72,11 +72,11 @@ function AddBookRoom() {
   const onFinish = async (values) => {
     const data = {
       id: 0,
-      maPhong: 0,
+      maPhong: values.maPhong,
       ngayDen: dayjs(dateRange[0]).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
       ngayDi: dayjs(dateRange[1]).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
-      soLuongKhach: 0,
-      maNguoiDung: 0,
+      soLuongKhach: values.soLuongKhach,
+      maNguoiDung: values.maNguoiDung,
     };
 
     console.log(data);
@@ -134,7 +134,7 @@ function AddBookRoom() {
               {/* email */}
               <Form.Item
                 initialValue=""
-                name="email"
+                name="date"
                 label="Start Day -End Day"
                 rules={[
                   {
@@ -149,7 +149,7 @@ function AddBookRoom() {
               {/* loai nguoi dung */}
               <Form.Item
                 initialValue=""
-                name="typeUser"
+                name="maPhong"
                 label="Room Name"
                 placeholder="select room"
                 rules={[

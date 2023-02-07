@@ -17,15 +17,16 @@ export class BookRoom extends baseService {
   // getroombyid
   //   /api/dat-phong/{id}
   getRoombyID = (roomid) => {
-    return this.get(`/api/dat-phong?id=${roomid}`);
+    return this.get(`/api/dat-phong/${roomid}`);
   };
   //  put /api/dat-phong/{id}
   putRoom = (rommid, data) => {
-    return this.put(`/api/dat-phong/?id=${rommid}`, data);
+    return this.put(`/api/dat-phong/${rommid}`, data);
   };
   //  delete /api/dat-phong/{id}
   deleteRoom = (rommid) => {
-    return this.delete(`/api/dat-phong?id=${rommid}`);
+    console.log(rommid);
+    return this.delete(`/api/dat-phong/${rommid}`);
   };
   //   /api/dat-phong/lay-theo-nguoi-dung/{MaNguoiDung}
   getRoombyUser = (userid) => {
