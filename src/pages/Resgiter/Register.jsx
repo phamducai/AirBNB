@@ -1,7 +1,48 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { message } from "antd";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { RegisterAction } from "redux/actions/AuthAction";
 
 function Register() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+  const { register, handleSubmit } = useForm();
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Success Regiter User",
+    });
+  };
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "Error Regiter User",
+    });
+  };
+
+  const onSubmit = async (value) => {
+    console.log(value);
+    const data = {
+      id: 0,
+      name: value.name,
+      email: value.email,
+      password: value.password,
+      phone: value.phone,
+      birthday: value.birthday,
+      gender: value.gender,
+      role: "USER",
+    };
+    try {
+      await dispatch(RegisterAction(data));
+      success();
+      navigate("/login");
+    } catch (err) {
+      error();
+    }
+  };
   return (
     <div>
       <div
@@ -13,8 +54,9 @@ function Register() {
         }}
       >
         <div className="w-full p-5">
+          {contextHolder}
           <div className="md:absolute top-1/2 left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 border rounded-lg shadow-lg bg-white px-10 py-5 w-4/5 sm:w-2/3 mx-auto">
-            <form action="">
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="relative mb-4">
                 <div className="mb-2 md:absolute top-0 left-0">
                   <NavLink to={""} className="lg:absolute top-0 left-0">
@@ -43,9 +85,10 @@ function Register() {
                     type="text"
                     name="name"
                     id="name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Điền tên vào đây ..."
                     required
+                    {...register("name")}
                   />
                 </div>
                 {/* email */}
@@ -63,6 +106,7 @@ function Register() {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Example@gmail.com"
                     required
+                    {...register("email")}
                   />
                 </div>
                 {/* sdt */}
@@ -77,10 +121,11 @@ function Register() {
                     type="text"
                     id="phone"
                     name="phone"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="0974380625"
                     required
                     pattern="^[0-9\-\+]{9,15}$"
+                    {...register("phone")}
                   />
                 </div>
                 {/* password */}
@@ -95,9 +140,10 @@ function Register() {
                     type="password"
                     id="password"
                     name="password"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="***********"
                     required
+                    {...register("password")}
                   />
                 </div>
                 {/* address */}
@@ -112,9 +158,10 @@ function Register() {
                     type="text"
                     id="address"
                     name="address"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Điền địa chỉ vào đây ..."
                     required
+                    {...register("address")}
                   />
                 </div>
                 {/* birthday */}
@@ -132,6 +179,7 @@ function Register() {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="***********"
                     required
+                    {...register("birthday")}
                   />
                 </div>
                 <div className="mb-1">
@@ -142,6 +190,7 @@ function Register() {
                     Giới tính
                   </label>
                   <select
+                    {...register("gender")}
                     name="gender"
                     id="gender"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
