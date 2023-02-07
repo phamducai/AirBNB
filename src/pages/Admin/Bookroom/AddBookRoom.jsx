@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Button,
-  Checkbox,
   DatePicker,
   Form,
   Input,
@@ -51,10 +50,12 @@ function AddBookRoom() {
   const onChanges = (dates) => {
     setDateRange(dates);
   };
-
+  const onchangeSelect = (event) => {
+    setSelectedValue(event);
+  };
   const { RangePicker } = DatePicker;
   const [form] = Form.useForm();
-  const [, forceUpdate] = useState({});
+
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
   const success = () => {
@@ -72,7 +73,7 @@ function AddBookRoom() {
   const onFinish = async (values) => {
     const data = {
       id: 0,
-      maPhong: values.maPhong,
+      maPhong: selectedValue,
       ngayDen: dayjs(dateRange[0]).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
       ngayDi: dayjs(dateRange[1]).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
       soLuongKhach: values.soLuongKhach,
@@ -90,6 +91,8 @@ function AddBookRoom() {
 
   useEffect(() => {
     dispatch(getAllRentalRoomAction());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const allRoom = useSelector((state) => state.RoomReducers.getAllRenderRoom);
 
@@ -159,7 +162,7 @@ function AddBookRoom() {
                   },
                 ]}
               >
-                <Select>
+                <Select onChange={onchangeSelect}>
                   {allRoom?.map((item) => (
                     <Option key={item.id} value={item.id}>
                       {item.tenPhong}

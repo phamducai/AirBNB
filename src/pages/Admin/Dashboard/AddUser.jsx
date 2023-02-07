@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from "react";
 import {
   Button,
   Checkbox,
@@ -44,7 +45,7 @@ const tailFormItemLayout = {
 };
 function AddUser() {
   const [form] = Form.useForm();
-  const [, forceUpdate] = useState({});
+
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
   const success = () => {
@@ -259,7 +260,7 @@ function AddUser() {
               >
                 <Checkbox>
                   {" "}
-                  I have read the <a href="">agreement</a>
+                  I have read the <a href="#">agreement</a>
                 </Checkbox>
               </Form.Item>
 

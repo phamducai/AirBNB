@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  message,
-  Select,
-} from "antd";
+import { Button, DatePicker, Form, InputNumber, message, Select } from "antd";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllRentalRoomAction,
   getRentalRoomByIDAction,
 } from "redux/actions/RetalRoomAction";
-import { PostRoomAction } from "redux/actions/BookRoomAction";
+import { UpdateRoomAction } from "redux/actions/BookRoomAction";
 import { useParams } from "react-router-dom";
 import {
   getAllAdminUserAction,
@@ -53,11 +44,21 @@ const tailFormItemLayout = {
     },
   },
 };
-function GetBookRoom() {
+function UpdateBookRoom() {
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValueUser, setSelectedValueUser] = useState("");
   const { id, userId, locationId } = useParams();
 
+  // eslint-disable-next-line no-unused-vars
   const [dateRange, setDateRange] = useState(null);
-
+  const handleChange = (event) => {
+    // setSelectedValue(event.target.value);
+    setSelectedValue(event);
+  };
+  const handleChangeUsers = (event) => {
+    // setSelectedValue(event.target.value);
+    setSelectedValueUser(event);
+  };
   const onChanges = (dates, a) => {
     console.log(dates, a);
     setDateRange(dates);
@@ -67,6 +68,38 @@ function GetBookRoom() {
   const [form] = Form.useForm();
 
   const dispatch = useDispatch();
+  const [messageApi, contextHolder] = message.useMessage();
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Success Update Room Detail",
+    });
+  };
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "Error Update Room Detail",
+    });
+  };
+  const onFinish = async (values) => {
+    console.log(values);
+    const data = {
+      id: 0,
+      maPhong: selectedValue ? selectedValue : locationId,
+      ngayDen: dayjs(values.date[0]).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
+      ngayDi: dayjs(values.date[1]).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
+      soLuongKhach: values.soLuongKhach,
+      maNguoiDung: selectedValueUser ? selectedValueUser : userId,
+    };
+
+    try {
+      await dispatch(UpdateRoomAction(id, data));
+      console.log(data);
+      success();
+    } catch (err) {
+      error();
+    }
+  };
 
   useEffect(() => {
     dispatch(getAllRentalRoomAction());
@@ -74,7 +107,7 @@ function GetBookRoom() {
     dispatch(getRentalRoomByIDAction(locationId));
     dispatch(getAdminUserByIDAction(userId));
     dispatch(getRoomByIDAction(id));
-  }, [id, userId, locationId]);
+  }, [dispatch, id, userId, locationId]);
   const allRoom = useSelector((state) => state.RoomReducers.getAllRenderRoom);
   const RoomidDefalt = useSelector(
     (state) => state.RoomReducers.getRenderRoomrByID
@@ -88,14 +121,14 @@ function GetBookRoom() {
   const daypickerDefalut = useSelector(
     (state) => state.BookRoomReducer.getRoomByID
   );
-  console.log(daypickerDefalut);
 
   return (
     daypickerDefalut?.id &&
     RoomidDefalt?.tenPhong && (
       <div>
         <div className="container">
-          <h1 className="text-center mr-40"> Booking Room Detail</h1>
+          {contextHolder}
+          <h1 className="text-center mr-40"> Update Booking Room</h1>
           <div>
             <div>
               {" "}
@@ -104,6 +137,7 @@ function GetBookRoom() {
                 className="col-span-9"
                 form={form}
                 name="register"
+                onFinish={onFinish}
                 initialValues={{
                   prefix: "84",
                 }}
@@ -127,7 +161,7 @@ function GetBookRoom() {
                     },
                   ]}
                 >
-                  <Select>
+                  <Select onChange={handleChangeUsers}>
                     {allUser?.map((item) => (
                       <Option key={item.id} value={item.id}>
                         {item.name}
@@ -141,7 +175,7 @@ function GetBookRoom() {
                     dayjs(daypickerDefalut?.ngayDen, "YYYY-MM-DD"),
                     dayjs(daypickerDefalut?.ngayDi, "YYYY-MM-DD"),
                   ]}
-                  name="email"
+                  name="date"
                   label="Start Day -End Day"
                   rules={[
                     {
@@ -156,7 +190,7 @@ function GetBookRoom() {
                 {/* loai nguoi dung */}
                 <Form.Item
                   initialValue={RoomidDefalt?.tenPhong}
-                  name="typeUser"
+                  name="maPhong"
                   label="Room Name"
                   placeholder="select room"
                   rules={[
@@ -166,7 +200,7 @@ function GetBookRoom() {
                     },
                   ]}
                 >
-                  <Select>
+                  <Select onChange={handleChange}>
                     {allRoom?.map((item) => (
                       <Option key={item.id} value={item.id}>
                         {item.tenPhong}
@@ -193,6 +227,18 @@ function GetBookRoom() {
                 >
                   <InputNumber />
                 </Form.Item>
+
+                <Form.Item
+                  shouldUpdate
+                  className="w-1/10 mx-auto"
+                  {...tailFormItemLayout}
+                >
+                  {() => (
+                    <Button type="primary" htmlType="submit">
+                      Update Booking Room
+                    </Button>
+                  )}
+                </Form.Item>
               </Form>
             </div>
           </div>
@@ -202,4 +248,4 @@ function GetBookRoom() {
   );
 }
 
-export default GetBookRoom;
+export default UpdateBookRoom;

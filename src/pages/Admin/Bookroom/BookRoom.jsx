@@ -4,11 +4,6 @@ import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import dayjs from "dayjs";
-// import {
-//   deleteAdminUserAction,
-//   getAdminUserByNameUserAction,
-//   getAllAdminUserAction,
-// } from "redux/actions/AdminUserAction";
 
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import {
@@ -16,7 +11,7 @@ import {
   getAllRoomAction,
 } from "redux/actions/BookRoomAction";
 import { getAllRentalRoomAction } from "redux/actions/RetalRoomAction";
-import _ from "lodash";
+
 import { getAlllocationAction } from "redux/actions/LocationAction";
 
 const { Search } = Input;
@@ -43,7 +38,7 @@ function BookRoom() {
   //   let uniqueArray = _.uniqBy(BookRoom, "maPhong");
 
   console.log(BookRoom);
-  const AllLocation = AllLocations.map(({ hinhAnh, ...rest }) => rest);
+  const AllLocation = AllLocations?.map(({ hinhAnh, ...rest }) => rest);
 
   let combinedArrays = BookRoom?.map((room1) => {
     let match = room?.find((item) => room1.maPhong === item.id);
@@ -153,17 +148,18 @@ function BookRoom() {
               <DeleteOutlined
                 style={{ color: "red" }}
                 onClick={() => {
-                  if (
-                    window.confirm(
-                      "Are you sure you want to delete" + item.id + "?"
-                    )
-                  ) {
-                    dispatch(deleteRooomAction(item.id));
-                    dispatch(getAllRoomAction());
-                    dispatch(getAllRentalRoomAction());
-                    dispatch(getAlllocationAction());
-                    alert("DELETE Success");
-                  }
+                  dispatch(deleteRooomAction(item.id));
+                  // if (
+                  //   window.confirm(
+                  //     "Are you sure you want to delete" + item.id + "?"
+                  //   )
+                  // ) {
+                  //   dispatch(deleteRooomAction(item.id));
+                  //   dispatch(getAllRoomAction());
+                  //   dispatch(getAllRentalRoomAction());
+                  //   dispatch(getAlllocationAction());
+                  //   alert("DELETE Success");
+                  // }
                 }}
               />{" "}
             </span>
