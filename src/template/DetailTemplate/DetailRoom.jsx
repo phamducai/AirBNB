@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-<<<<<<< HEAD
+
 import {
   Button,
   Col,
@@ -14,9 +14,7 @@ import {
   Space,
   Rate,
 } from "antd";
-=======
-import { Button, Col, Row, Input, DatePicker, Modal } from "antd";
->>>>>>> 82dc0d75a2fbd5a9bd63561961b9862736c19460
+
 import {
   AntDesignOutlined,
   CalendarOutlined,
@@ -47,16 +45,9 @@ import moment from "moment/moment";
 const { TextArea } = Input;
 
 const { RangePicker } = DatePicker;
-<<<<<<< HEAD
-
-const onPanelChange = (value, mode) => {
-  console.log(value.format("YYYY-MM-DD"), mode);
-};
-=======
->>>>>>> 82dc0d75a2fbd5a9bd63561961b9862736c19460
 
 // Detail Room
-const DetailRoom = () => {
+function DetailRoom() {
   const dispatch = useDispatch();
 
   const detailRoom = useSelector(
@@ -114,7 +105,7 @@ const DetailRoom = () => {
       ngayDen: dateRange && dateRange[0],
       ngayDi: dateRange && dateRange[1],
       soLuongKhach: num,
-      maNguoiDung: 2171,
+      maNguoiDung: 2171
     };
     await dispatch(PostRoomAction(data));
     console.log(data);
@@ -144,7 +135,7 @@ const DetailRoom = () => {
       maNguoiBinhLuan: 0,
       ngayBinhLuan: "08/02/2023",
       noiDung: commentValue,
-      saoBinhLuan: 0,
+      saoBinhLuan: 0
     };
     await dispatch(PostCommentAction(data));
     console.log("comment" + data);
@@ -163,8 +154,7 @@ const DetailRoom = () => {
       <img
         className="w-full mb-9 rounded-2xl"
         src={detailRoom?.hinhAnh}
-        alt=""
-      />
+        alt="" />
       <Row>
         <Col span={16}>
           <div className="mr-40 border-solid border-rose-300 border-0 border-b-2">
@@ -215,8 +205,7 @@ const DetailRoom = () => {
             <img
               className="w-40"
               src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg"
-              alt=""
-            />
+              alt="" />
             <p className="text-lg my-3">
               Mọi đặt phòng đều được bảo vệ miễn phí trong trường hợp Chủ nhà
               hủy, thông tin nhà/phòng cho thuê không chính xác và những vấn đề
@@ -240,8 +229,7 @@ const DetailRoom = () => {
                   <img
                     className="w-40"
                     src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg"
-                    alt=""
-                  />
+                    alt="" />
                   <p className="text-lg py-3 mb-1">
                     AirCover là chương trình bảo vệ toàn diện, được áp dụng miễn
                     phí với mọi đặt phòng.
@@ -318,7 +306,7 @@ const DetailRoom = () => {
                 <div>
                   <p>
                     <span className="font-bold">The space</span> <br></br>{" "}
-                    There’s a special offer for booking just 5 or 6 bedrooms of
+                    There's a special offer for booking just 5 or 6 bedrooms of
                     7, message us. IMPORTANT! 500 usd of Security Deposit is
                     required upon check in. Super modern 1300 m2 House which may
                     host up to 18 Guests in 7 spacious bedrooms designed for the
@@ -357,8 +345,7 @@ const DetailRoom = () => {
                   <img
                     className="w-full mb-9 rounded-2xl"
                     src={detailRoom?.hinhAnh}
-                    alt=""
-                  />
+                    alt="" />
                 </div>
               )}
               <div className="text-center">
@@ -460,8 +447,7 @@ const DetailRoom = () => {
                     <RangePicker
                       className="m-5 mt-1"
                       format={"YYYY-MM-DD"}
-                      onChange={onChanges}
-                    />
+                      onChange={onChanges} />
                   </td>
                 </tr>
                 <tr className="">
@@ -484,8 +470,7 @@ const DetailRoom = () => {
                       <Input
                         className="form-control text-center w-full"
                         value={num + " khách"}
-                        onChange={handleChange}
-                      />
+                        onChange={handleChange} />
                       <div>
                         <Button
                           className="bg-slate-300 font-bold hover:bg-rose-500"
@@ -550,8 +535,7 @@ const DetailRoom = () => {
                     className="mr-4 mb-2"
                     src={item.avatar}
                     size="large"
-                    icon={<UserOutlined />}
-                  />
+                    icon={<UserOutlined />} />
                   <div className="w-full">
                     <h3 className="mb-0">{item.tenNguoiBinhLuan}</h3>
                     {/* <Rate value={item.saoBinhLuan} count={5} /> */}
@@ -570,8 +554,7 @@ const DetailRoom = () => {
             className="mr-4 mb-2"
             src=""
             size="large"
-            icon={<UserOutlined />}
-          />
+            icon={<UserOutlined />} />
           <div className="w-full">
             {/* <Rate value={""} count={5} /> */}
             <Form form={form} layout="vertical" autoComplete="off">
@@ -581,8 +564,7 @@ const DetailRoom = () => {
                   rows={4}
                   placeholder="Nhập bình luận"
                   minLength={1}
-                  maxLength={100}
-                />
+                  maxLength={100} />
                 {/* <Input placeholder="Nhập bình luận" className="w-1/2 h-20" /> */}
               </Form.Item>
               <Form.Item>
@@ -602,6 +584,6 @@ const DetailRoom = () => {
       </div>
     </div>
   );
-};
+}
 
 export default DetailRoom;
