@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DatePicker, Form, Input, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getAdminUserByIDAction } from "redux/actions/AdminUserAction";
 import dayjs from "dayjs";
 import { Avatar } from "antd";
@@ -28,8 +28,6 @@ const formItemLayout = {
 };
 
 function GetUser() {
-  const navigate = useNavigate();
-
   const [, forceUpdate] = useState({});
   const dispatch = useDispatch();
   const { id } = useParams();

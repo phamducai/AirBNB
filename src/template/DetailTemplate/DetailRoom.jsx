@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD
 import {
   Button,
   Col,
@@ -12,6 +14,9 @@ import {
   Space,
   Rate,
 } from "antd";
+=======
+import { Button, Col, Row, Input, DatePicker, Modal } from "antd";
+>>>>>>> 82dc0d75a2fbd5a9bd63561961b9862736c19460
 import {
   AntDesignOutlined,
   CalendarOutlined,
@@ -42,10 +47,13 @@ import moment from "moment/moment";
 const { TextArea } = Input;
 
 const { RangePicker } = DatePicker;
+<<<<<<< HEAD
 
 const onPanelChange = (value, mode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
 };
+=======
+>>>>>>> 82dc0d75a2fbd5a9bd63561961b9862736c19460
 
 // Detail Room
 const DetailRoom = () => {
@@ -63,6 +71,8 @@ const DetailRoom = () => {
   useEffect(() => {
     dispatch(getRentalRoomByIDAction(1));
     dispatch(getCommentByRoomAction(3));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // date

@@ -9,7 +9,7 @@ import {
 } from "redux/actions/RetalRoomAction";
 import { Fragment } from "react";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { genComponentStyleHook } from "antd/es/theme";
+
 const { Search } = Input;
 function Room() {
   const dispatch = useDispatch();

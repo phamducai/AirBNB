@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
 import {
-  getAlllocationAction,
   deletelocationAction,
   GetPaginationSearchLocationAction,
 } from "redux/actions/LocationAction";

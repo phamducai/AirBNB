@@ -80,7 +80,7 @@ export const getAdminUserByIDAction = (roomid) => {
         payload: result.data.content,
       });
     } catch (errors) {
-      throw errors;
+      console.log(errors);
     }
   };
 };

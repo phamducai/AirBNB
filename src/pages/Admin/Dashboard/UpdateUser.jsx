@@ -9,7 +9,7 @@ import {
   Select,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   getAdminUserByIDAction,
   UpdateAdminUserAction,
@@ -50,7 +50,6 @@ const tailFormItemLayout = {
   },
 };
 function UpdateUser() {
-  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({});
   const dispatch = useDispatch();
