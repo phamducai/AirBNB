@@ -19,7 +19,6 @@ import {
   AntDesignOutlined,
   CalendarOutlined,
   CaretDownOutlined,
-  CaretRightOutlined,
   CaretUpOutlined,
   HeatMapOutlined,
   UserOutlined,
