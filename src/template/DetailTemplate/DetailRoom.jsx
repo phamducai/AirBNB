@@ -13,6 +13,7 @@ import {
   Avatar,
   Space,
   Rate,
+  message,
 } from "antd";
 
 import {
@@ -110,8 +111,13 @@ function DetailRoom() {
       soLuongKhach: num,
       maNguoiDung: 2171,
     };
-    await dispatch(PostRoomAction(data));
-    console.log(data);
+    try {
+      await dispatch(PostRoomAction(data));
+      console.log(data);
+      message.success("Đặt phòng thành công!");
+    } catch (err) {
+      message.error("Vui lòng chọn ngày");
+    }
   };
 
   // modal
@@ -140,8 +146,13 @@ function DetailRoom() {
       noiDung: commentValue,
       saoBinhLuan: 0,
     };
-    await dispatch(PostCommentAction(data));
-    console.log("comment" + data);
+    try {
+      await dispatch(PostCommentAction(data));
+      message.success("Bình luận thành công!");
+      console.log(data);
+    } catch (err) {
+      // message.error("Bình luận không được để trống");
+    }
   };
 
   // show chi tiết
@@ -222,7 +233,7 @@ function DetailRoom() {
               </div>
             </div>
           </div>
-          <div className="text-base py-9 border-solid border-rose-300 border-0 border-b-2">
+          <div className="text-justify text-base py-9 border-solid border-rose-300 border-0 border-b-2">
             <img
               className="w-36 pb-3"
               src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg"
@@ -234,7 +245,7 @@ function DetailRoom() {
               khác như sự cố trong quá trình nhận phòng.
             </p>
             <a
-              className="font-bold text-black underline pb-4"
+              className="font-semibold text-black underline pb-4"
               onClick={showModal}
             >
               Tìm hểu thêm <DoubleRightOutlined />
@@ -246,7 +257,7 @@ function DetailRoom() {
               onOk={handleOk}
               onCancel={handleCancel}
             >
-              <div className="p-5">
+              <div className="p-5 text-justify">
                 <div className="border-solid border-rose-300 border-0 border-b-2">
                   <img
                     className="w-40"
@@ -313,7 +324,7 @@ function DetailRoom() {
               </div>
             </Modal>
           </div>
-          <div className="text-base py-9 border-solid border-rose-300 border-0 border-b-2 relative">
+          <div className="text-justify text-base py-9 border-solid border-rose-300 border-0 border-b-2 relative">
             <h2 className="text-xl font-bold">Giới thiệu về chỗ ở này</h2>
             <p>
               Là ngôi nhà độc lập hình vòng cung với 20m2 không gian nội thất
@@ -358,24 +369,22 @@ function DetailRoom() {
               )}
               <div className="text-center">
                 {isShow ? (
-                  <Button
-                    className="font-bold text-lg text-black"
+                  <button
+                    className="px-10 font-semibold text-lg cursor-pointer rounded-md bg-white border-dashed border-indigo-600 text-indigo-600 hover:text-indigo-400 hover:border-indigo-400"
                     type="primary"
                     ghost
                     onClick={handleShow}
                   >
                     Thu gọn <CaretUpOutlined />
-                  </Button>
+                  </button>
                 ) : (
                   <div className="h-3/4 w-full absolute top-5 bg-gradient-to-b from-transparent to-white">
-                    <Button
-                      className="font-bold text-lg text-black mt-36"
-                      type="primary"
-                      ghost
+                    <button
+                      className="px-10 font-semibold text-lg mt-36 cursor-pointer rounded-md bg-white border-dashed border-indigo-600 text-indigo-600 hover:text-indigo-400 hover:border-indigo-400"
                       onClick={handleShow}
                     >
                       Xem thêm <CaretDownOutlined />
-                    </Button>
+                    </button>
                   </div>
                 )}
               </div>
@@ -582,10 +591,13 @@ function DetailRoom() {
           </div>
         </Col>
       </Row>
-      <div>
-        <h2 className="my-4 text-xl">
-          <StarOutlined /> 4,91 · 162 đánh giá
-        </h2>
+      <div className="py-7">
+        <div className="rounded-xl bg-orange-100 p-5 mb-5">
+          <h2 className="text-rose-500 m-0 text-3xl font-semibold">
+            4,91 <span className="font-normal text-lg">trên 5</span>
+          </h2>
+          <Rate className="text-rose-500" value={5} count={5} />
+        </div>
         <Row></Row>
         <div>
           {comment.map((item) => {
@@ -599,7 +611,9 @@ function DetailRoom() {
                     icon={<UserOutlined />}
                   />
                   <div className="w-full">
-                    <h4 className="mb-0">{item.tenNguoiBinhLuan}</h4>
+                    <h3 className="mb-0 font-semibold">
+                      {item.tenNguoiBinhLuan}
+                    </h3>
                     {/* <Rate value={item.saoBinhLuan} count={5} /> */}
                     <p className="text-sm text-gray-500 m-0">
                       {moment(item.ngayBinhLuan).format("DD-MM-yyyy")}
@@ -611,6 +625,9 @@ function DetailRoom() {
             );
           })}
         </div>
+        <button className="cursor-pointer py-3 px-5 rounded-lg border mb-7 bg-white hover:bg-gray-200 text-base font-semibold">
+          Hiển thị tất cả bình luận
+        </button>
         <div className="flex">
           <Avatar
             className="mr-4 mb-2"
@@ -619,15 +636,23 @@ function DetailRoom() {
             icon={<UserOutlined />}
           />
           <div className="w-full">
+            <h3 className="mb-0 font-semibold">Tên người dùng</h3>
             {/* <Rate value={""} count={5} /> */}
             <Form form={form} layout="vertical" autoComplete="off">
-              <Form.Item name="comment" label="Đánh giá của bạn">
+              <Form.Item
+                name="comment"
+                label=""
+                rules={[
+                  {
+                    required: true,
+                    message: "Bình luận không được để trống!",
+                  },
+                ]}
+              >
                 <TextArea
                   className="w-1/2"
                   rows={4}
-                  placeholder="Nhập đánh giá"
-                  minLength={1}
-                  maxLength={100}
+                  placeholder="Nhập bình luận..."
                 />
                 {/* <Input placeholder="Nhập đánh giá" className="w-1/2 h-20" /> */}
               </Form.Item>
