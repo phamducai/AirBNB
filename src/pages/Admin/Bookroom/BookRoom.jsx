@@ -37,9 +37,8 @@ function BookRoom() {
 
   //   let uniqueArray = _.uniqBy(BookRoom, "maPhong");
 
-  console.log(BookRoom);
-  const AllLocation = AllLocations?.map(({ hinhAnh, ...rest }) => rest);
-
+  //  const AllLocation = AllLocations?.map(({ hinhAnh, ...rest }) => rest);
+  const AllLocation = AllLocations;
   let combinedArrays = BookRoom?.map((room1) => {
     let match = room?.find((item) => room1.maPhong === item.id);
     return { ...match, ...room1 };
@@ -148,18 +147,17 @@ function BookRoom() {
               <DeleteOutlined
                 style={{ color: "red" }}
                 onClick={() => {
-                  dispatch(deleteRooomAction(item.id));
-                  // if (
-                  //   window.confirm(
-                  //     "Are you sure you want to delete" + item.id + "?"
-                  //   )
-                  // ) {
-                  //   dispatch(deleteRooomAction(item.id));
-                  //   dispatch(getAllRoomAction());
-                  //   dispatch(getAllRentalRoomAction());
-                  //   dispatch(getAlllocationAction());
-                  //   alert("DELETE Success");
-                  // }
+                  if (
+                    window.confirm(
+                      "Are you sure you want to delete" + item.id + "?"
+                    )
+                  ) {
+                    dispatch(deleteRooomAction(item.id));
+                    dispatch(getAllRoomAction());
+                    dispatch(getAllRentalRoomAction());
+                    dispatch(getAlllocationAction());
+                    alert("DELETE Success");
+                  }
                 }}
               />{" "}
             </span>
@@ -168,9 +166,7 @@ function BookRoom() {
       },
     },
   ];
-  const data = Array.isArray(combinedArray2)
-    ? combinedArray2
-    : [combinedArray2];
+  const data = combinedArray2 ? combinedArray2 : null;
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
@@ -179,7 +175,7 @@ function BookRoom() {
   };
 
   return (
-    combinedArray2[1]?.tenViTri && (
+    combinedArray2[0]?.tenViTri && (
       <div>
         <h1 className="text-3xl mb-5">User Management</h1>
         <Link to="/admin/bookrooms/addroom">
