@@ -1,9 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Col, Row, Tag, Input, DatePicker, Form, Modal } from "antd";
+import {
+  Button,
+  Col,
+  Row,
+  Input,
+  DatePicker,
+  Form,
+  Modal,
+  Avatar,
+  Space,
+  Rate,
+} from "antd";
 import {
   AntDesignOutlined,
   CalendarOutlined,
+  CaretDownOutlined,
+  CaretRightOutlined,
+  CaretUpOutlined,
   HeatMapOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -19,11 +33,16 @@ import {
 import { getRentalRoomByIDAction } from "redux/actions/RetalRoomAction";
 
 import { PostRoomAction } from "redux/actions/BookRoomAction";
+import { PostCommentAction } from "redux/actions/CommentsAction";
 
 import dayjs from "dayjs";
 import { getCommentByRoomAction } from "redux/actions/CommentsAction";
+import moment from "moment/moment";
+
+const { TextArea } = Input;
 
 const { RangePicker } = DatePicker;
+
 const onPanelChange = (value, mode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
 };
@@ -78,12 +97,12 @@ const DetailRoom = () => {
   };
 
   // post data
-  const PostData = async () => {
+  const postData = async () => {
     const data = {
       id: 0,
       maPhong: 2,
-      ngayDen: dateRange ? dateRange[0] : 0,
-      ngayDi: dateRange ? dateRange[1] : 0,
+      ngayDen: dateRange && dateRange[0],
+      ngayDi: dateRange && dateRange[1],
       soLuongKhach: num,
       maNguoiDung: 2171,
     };
@@ -101,6 +120,31 @@ const DetailRoom = () => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  // form comment
+  const [form] = Form.useForm();
+  const commentValue = Form.useWatch("comment", form);
+
+  // post comment
+  const postComment = async () => {
+    const data = {
+      id: 0,
+      maPhong: 2,
+      maNguoiBinhLuan: 0,
+      ngayBinhLuan: "08/02/2023",
+      noiDung: commentValue,
+      saoBinhLuan: 0,
+    };
+    await dispatch(PostCommentAction(data));
+    console.log("comment" + data);
+  };
+
+  // show chi tiết
+  const [isShow, setIsShow] = useState(false);
+
+  const handleShow = () => {
+    setIsShow(!isShow);
   };
 
   return (
@@ -157,7 +201,7 @@ const DetailRoom = () => {
               </div>
             </div>
           </div>
-          <div className="mr-40 py-5 border-solid border-rose-300 border-0 border-b-2">
+          <div className="w-5/6 py-5 border-solid border-rose-300 border-0 border-b-2">
             <img
               className="w-40"
               src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg"
@@ -250,8 +294,90 @@ const DetailRoom = () => {
               </div>
             </Modal>
           </div>
+          <div className="text-lg w-5/6 py-5 border-solid border-rose-300 border-0 border-b-2 relative">
+            <h2 className="text-2xl font-bold">Chúng tôi có gì cho bạn</h2>
+            <p>
+              The Mirror Villa is luxurious all the way and features everything
+              you can expect from a smart, upscale property of 21st century. It
+              impresses with utilizing contemporary and distinctive materials,
+              finishing with the utmost attention to details and quality,
+              innovative technologies and high-end appliances.
+            </p>
+            <div>
+              {isShow && (
+                <div>
+                  <p>
+                    <span className="font-bold">The space</span> <br></br>{" "}
+                    There’s a special offer for booking just 5 or 6 bedrooms of
+                    7, message us. IMPORTANT! 500 usd of Security Deposit is
+                    required upon check in. Super modern 1300 m2 House which may
+                    host up to 18 Guests in 7 spacious bedrooms designed for the
+                    most passionate and sophisticated travelers. Extra beds can
+                    be provided for extra charge.
+                  </p>
+                  <p>
+                    <span className="font-bold">Other things to not</span>{" "}
+                    <br></br> Look how amazing is with the reflective façade walls that catch the surrounding panorama,
+                    blending into landscape rather than competing against it!
+                    This super modern 1300 m2 House which may host up to 18
+                    Guests in 7 spacious bedrooms designed for the most
+                    passionate and sophisticated travelers.
+                  </p>
+                  <p>Here is 𝐬𝐨𝐦𝐞 of the coolest Villa feautures:</p>
+                  <ul>
+                    <li>
+                      The latest '21 SONOS sound system over the whole House
+                      /Air Play 2/Symfonisk lamp speakers in bedrooms
+                    </li>
+                    <li>Gym Space/ “Mi Fit” Fitness Tracker</li>
+                    <li>
+                      Huge Pool with underwater multi color lightening system
+                    </li>
+                    <li>
+                      Automatic Waterfall inside the House • Living area with
+                      White Piano/ Soccer table/SuffleBoard game
+                    </li>
+                    <li>BBQ</li>
+                    <li>Steam Bath and Sauna</li>
+                    <li>
+                      Jacuzzi on the Rooftop • Golf Course • Control of the
+                      House via Smartphone Apps
+                    </li>
+                  </ul>
+                  <img
+                    className="w-full mb-9 rounded-2xl"
+                    src={detailRoom?.hinhAnh}
+                    alt=""
+                  />
+                </div>
+              )}
+              <div className="text-center">
+                {isShow ? (
+                  <Button
+                    className="font-bold text-lg text-black"
+                    type="primary"
+                    ghost
+                    onClick={handleShow}
+                  >
+                    Thu gọn <CaretUpOutlined />
+                  </Button>
+                ) : (
+                  <div className="h-3/4 w-full absolute top-1/4 bg-gradient-to-b from-transparent to-white">
+                    <Button
+                      className="font-bold text-lg text-black mt-28"
+                      type="primary"
+                      ghost
+                      onClick={handleShow}
+                    >
+                      Xem thêm <CaretDownOutlined />
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
           <div className="mr-40 py-5 border-solid border-rose-300 border-0 border-b-2">
-            <h2 className="text-lg font-bold">Nơi này có những gì cho bạn?</h2>
+            <h2 className="text-xl font-bold">Nơi này có những gì cho bạn?</h2>
             <table className="w-full">
               <tbody>
                 <tr className="flex gap-52 text-xl">
@@ -305,8 +431,8 @@ const DetailRoom = () => {
           </div>
         </Col>
         <Col span={8}>
-          <div className="shadow-lg shadow-red-300 rounded-2xl">
-            <table>
+          <div className="shadow-lg shadow-red-300 rounded-2xl sticky top-0">
+            <table className="">
               <tbody>
                 <tr>
                   <td colSpan={2} className="px-6">
@@ -364,8 +490,8 @@ const DetailRoom = () => {
                 <tr className="text-center">
                   <td colSpan={2} className="pl-7 pr-7">
                     <Button
-                      className="w-full h-full my-3 p-3 bg-rose-500 text-xl rounded-lg font-bold text-white"
-                      onClick={PostData}
+                      className="w-full h-full my-3 p-3 bg-gradient-to-r from-rose-500 to-purple-700 text-xl rounded-lg font-bold text-white"
+                      onClick={postData}
                     >
                       Đặt phòng
                     </Button>
@@ -404,8 +530,65 @@ const DetailRoom = () => {
         </Col>
       </Row>
       <div>
-        <h2>Bình Luận</h2>
-        <p>Phòng sạch đẹp</p>
+        <h2 className="my-4">ĐÁNH GIÁ SẢN PHẨM</h2>
+        <div>
+          {comment.map((item) => {
+            return (
+              <div className="mb-7">
+                <div className="flex">
+                  <Avatar
+                    className="mr-4 mb-2"
+                    src={item.avatar}
+                    size="large"
+                    icon={<UserOutlined />}
+                  />
+                  <div className="w-full">
+                    <h3 className="mb-0">{item.tenNguoiBinhLuan}</h3>
+                    {/* <Rate value={item.saoBinhLuan} count={5} /> */}
+                    <p className="text-sm text-gray-500 m-0">
+                      {moment(item.ngayBinhLuan).format("DD-MM-yyyy")}
+                    </p>
+                  </div>
+                </div>
+                <p>{item.noiDung}</p>
+              </div>
+            );
+          })}
+        </div>
+        <div className="flex">
+          <Avatar
+            className="mr-4 mb-2"
+            src=""
+            size="large"
+            icon={<UserOutlined />}
+          />
+          <div className="w-full">
+            {/* <Rate value={""} count={5} /> */}
+            <Form form={form} layout="vertical" autoComplete="off">
+              <Form.Item name="comment" label="Đánh giá của bạn">
+                <TextArea
+                  className="w-1/2"
+                  rows={4}
+                  placeholder="Nhập bình luận"
+                  minLength={1}
+                  maxLength={100}
+                />
+                {/* <Input placeholder="Nhập bình luận" className="w-1/2 h-20" /> */}
+              </Form.Item>
+              <Form.Item>
+                <Space>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={postComment}
+                  >
+                    Thêm Đánh Giá
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Form>
+          </div>
+        </div>
       </div>
     </div>
   );
