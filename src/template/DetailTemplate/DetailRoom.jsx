@@ -45,15 +45,17 @@ import { PostCommentAction } from "redux/actions/CommentsAction";
 
 import dayjs from "dayjs";
 import { getCommentByRoomAction } from "redux/actions/CommentsAction";
+import { useParams } from "react-router";
 
 const { TextArea } = Input;
 
 const { RangePicker } = DatePicker;
 
 // Detail Room
-function DetailRoom() {
+function DetailRoom({ paramsId }) {
   const dispatch = useDispatch();
 
+  console.log(paramsId);
   const detailRoom = useSelector(
     (state) => state.RoomReducers.getRenderRoomrByID
   );
@@ -61,16 +63,13 @@ function DetailRoom() {
     (state) => state.CommentsReducer.getCommentsWithroom
   );
   const user = useSelector((state) => state.Auth.userInformation);
-  console.log(user?.name);
-  //Binh Luan
-  console.log(dayjs().format("DD/MM/YYYY"));
 
   useEffect(() => {
-    dispatch(getRentalRoomByIDAction(1));
-    dispatch(getCommentByRoomAction(3));
+    dispatch(getRentalRoomByIDAction(paramsId));
+    dispatch(getCommentByRoomAction(paramsId));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [paramsId]);
 
   // date
   const [dateRange, setDateRange] = useState(null);
@@ -137,8 +136,6 @@ function DetailRoom() {
   // form comment
   const [form] = Form.useForm();
   const commentValue = Form.useWatch("comment", form);
-
-
 
   // post comment
   const postComment = async () => {
@@ -639,14 +636,14 @@ function DetailRoom() {
           Hiển thị tất cả bình luận
         </button>
         <div>
-            {user && (
-              <div className="flex">
+          {user && (
+            <div className="flex">
               <Avatar
                 className="mr-4 mb-2"
                 size="large"
                 icon={<UserOutlined />}
                 src={user?.avatar}
-              />          
+              />
               <div className="w-full">
                 <h3 className="mb-2 font-semibold">{user?.name}</h3>
                 {/* <Rate value={""} count={5} /> */}
@@ -682,9 +679,9 @@ function DetailRoom() {
                   </Form.Item>
                 </Form>
               </div>
-            </div>              
-            )}
-          </div>        
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
