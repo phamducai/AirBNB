@@ -7,18 +7,43 @@ import logo from "../../assets/logo/long-logo.png";
 import ProfileMenu from "./ProfileMenu";
 import SimpleBottomNavigation from "./BottomNav";
 import MobileSearchBar from "component/MobileSearchBar/MobileSearchBar";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAlllocationAction } from "redux/actions/LocationAction";
+import _, { uniqueId } from "lodash";
+import { Link } from "react-router-dom";
 
 export default function NavBar() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAlllocationAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const allLocation = useSelector(
+    (state) => state.LocationReducer.getAllLocation
+  );
+
+  const [toggle, setToggle] = useState(false);
+  const [locationID, setLocationID] = useState(null);
+
+  let uniqueArray = _.uniqBy(allLocation, "tenViTri");
+
   return (
     <header>
       <nav className="">
         <img src={logo} className={clsx(styles.navbar_logo)} alt="" />
-        <div className={clsx(styles.search_bar)}>
+        <div
+          className={clsx(styles.search_bar)}
+          onClick={() => {
+            setToggle(!toggle);
+          }}
+        >
           <div className={clsx(styles.search_bar_text)}> Địa điểm bất kì</div>
           <div className={clsx(styles.search_bar_text)}> Tuần bất kì</div>
           <div className={clsx(styles.search_bar_text2)}> Thêm Khách</div>
           <div
-            className="flex items-center justify-center   bg-[#ff385c] text-white"
+            className="flex items-center justify-center bg-[#ff385c] text-white"
             style={{ borderRadius: "50%", padding: "0.3rem" }}
           >
             <FiSearch />
@@ -37,123 +62,103 @@ export default function NavBar() {
             <ProfileMenu />
           </div>
         </div>
+        <div
+          className={clsx(
+            toggle ? styles.location_active : "",
+            styles.location,
+            "bg-white transition-all duration-300 "
+          )}
+        >
+          <form
+            className="flex items-start justify-center mt-4 gap-1  w-1/3 mx-auto  "
+            style={{
+              padding: " 0.35rem 1rem",
+              border: "1px solid var(--grey)",
+              borderRadius: " 40px",
+              boxShadow:
+                "0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%)",
+            }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log(e);
+            }}
+          >
+            <div style={{ borderRight: " 0.5px solid  var(--grey)" }}>
+              <label className="block mb-1" htmlFor="diaDiem">
+                <strong> Địa Điểm:</strong>
+              </label>
+              <select
+                name="diaDiem"
+                id="diaDiem"
+                onChange={(e) => {
+                  setLocationID(e.target.value);
+                }}
+                style={{ border: "none" }}
+              >
+                {uniqueArray.map((item) => {
+                  return <option value={item.id}>{item.tenViTri}</option>;
+                })}
+              </select>
+            </div>
+            <div style={{ borderRight: " 0.5px solid var(--grey)" }}>
+              <label htmlFor="ngayDi" className=" block  mb-1">
+                <strong> Ngày Đi:</strong>
+              </label>
+              <input
+                style={{ border: "none" }}
+                type="date"
+                id="ngayDi"
+                name="ngayDi"
+                placeholder="Nhập vào ngày đi"
+              />
+            </div>
+            <div style={{ borderRight: " 0.5px solid var(--grey)" }}>
+              <label htmlFor="ngayDen" className="  mb-1 block">
+                <strong>Ngày Đến:</strong>
+              </label>
+              <input
+                style={{ border: "none" }}
+                type="date"
+                id="ngayDen"
+                name="ngayDen"
+                placeholder="Nhập vào ngày đi"
+              />
+            </div>
+
+            <div style={{ borderRight: " 0.5px solid var(--grey)" }}>
+              <label htmlFor="number" className=" mb-1  block">
+                <strong> Số người:</strong>
+              </label>
+              <input
+                type="number"
+                style={{ border: "none", width: "100px" }}
+                name=""
+                id="number"
+                min={1}
+              />
+            </div>
+
+            <Link to={`/locationClient/${locationID}`}>
+              <button
+                className={clsx(
+                  styles.button_find,
+                  "mt-1 bg-[#ff385c] text-white"
+                )}
+                style={{
+                  borderRadius: "40px",
+                  padding: "0.5rem",
+                  border: "1px solid var(--grey)",
+                }}
+                type="submit"
+              >
+                <FiSearch /> Tìm Kiếm
+              </button>
+            </Link>
+          </form>
+        </div>
       </nav>
       <MobileSearchBar />
       <SimpleBottomNavigation />
     </header>
   );
 }
-
-// export default function NavBar() {
-//   return (
-//     <header>
-//       <nav
-//         className="flex justify-between items-center text-lg px-0 sm:px-20 "
-//         style={{
-//           borderBottom: "1px solid #8080801f",
-//           height: "80px",
-//         }}
-//       >
-//         {/* left */}
-//         <div className="logo  ">
-//           <img src={logo} width={100} alt="" />
-//         </div>
-//         {/* middle */}
-//         <div
-//           className="order hidden md:flex justify-center items-center relative border rounded-full "
-//           style={{
-//             border: "1px solid #e5e7eb",
-//             position: "relative",
-//             boxShadow: "0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%)",
-//             fontSize: "15px",
-//           }}
-//         >
-//           <input
-//             type="search"
-//             placeholder=""
-//             style={{ border: " 0px solid" }}
-//             className="py-2.5 w-[370px] rounded-full  "
-//           />
-
-//           <div className="absolute  mr-2">
-//             <button
-//               style={{
-//                 backgroundColor: "transparent",
-//                 border: "none",
-//                 cursor: "pointer",
-//                 fontWeight: "500",
-//               }}
-//             >
-//               Địa điểm bất kì
-//             </button>
-//             <span
-//               style={{
-//                 verticalAlign: "sub",
-//                 backgroundColor: "#e5e7eb",
-//                 width: "1px",
-//                 display: "inline-block",
-//                 height: "24px",
-//               }}
-//             ></span>
-//             <button
-//               className="mx-1"
-//               style={{
-//                 backgroundColor: "transparent",
-//                 border: "none",
-//                 cursor: "pointer",
-//                 fontWeight: "500",
-//               }}
-//             >
-//               Tuần bất kì
-//             </button>
-//             <span
-//               style={{
-//                 verticalAlign: "sub",
-//                 backgroundColor: "#e5e7eb",
-//                 width: "1px",
-//                 display: "inline-block",
-//                 height: "24px",
-//               }}
-//             ></span>
-//             <button
-//               className="mx-2 text-gray-500"
-//               style={{
-//                 backgroundColor: "transparent",
-//                 border: "none",
-//                 cursor: "pointer",
-//                 fontWeight: "500",
-//               }}
-//             >
-//               Thêm Khách
-//             </button>
-//           </div>
-//           <div
-//             className="bg-[#ff385c] text-white rounded-full mr-2"
-//             style={{ padding: "4px 10px", cursor: "pointer" }}
-//           >
-//             <FiSearch />
-//           </div>
-//         </div>
-//         {/* Right */}
-//         <div className="mr-4 sm:mr-0 login flex scroll-m-52 items-center font-semibold text-gray-600  ">
-//           <div className={clsx("hidden lg:block mb-0 mr-2", styles.rent)}>
-//             Cho thuê chỗ qua AirBnB <TbWorld className="world mx-3" />
-//           </div>
-//           <div
-//             className="flex gap-2 "
-//             style={{
-//               border: "1px solid #e5e7eb",
-//               borderRadius: "40px",
-//               padding: "10px 10px 10px 12px",
-//               boxShadow:
-//                 "0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%)",
-//             }}
-//           >
-//             <FiMenu />
-//             <AiOutlineUser />
-//           </div>
-//         </div>
-//       </nav>
-//     </header>
-//   );
-// }

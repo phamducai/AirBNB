@@ -31,6 +31,7 @@ import GetBookRoom from "pages/Admin/Bookroom/GetBookRoom";
 import Login from "pages/Login/Login";
 import Register from "pages/Resgiter/Register";
 import { LoginAction } from "redux/actions/AuthAction";
+import LocationClient from "pages/LocationClient/LocationClient";
 
 function App() {
   let user = JSON.parse(localStorage.getItem("data"));
@@ -57,6 +58,9 @@ function App() {
         <Route path="" element={<HomeTemplate />}>
           <Route index path="" element={<Home />}></Route>
         </Route>
+
+        <Route path="locationClient/:id" element={<LocationClient />} />
+
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
 
