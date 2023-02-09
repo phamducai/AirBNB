@@ -94,6 +94,7 @@ export default function NavBar() {
                   setLocationID(e.target.value);
                 }}
                 style={{ border: "none" }}
+                defaultValue={1}
               >
                 {uniqueArray.map((item) => {
                   return <option value={item.id}>{item.tenViTri}</option>;

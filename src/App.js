@@ -8,8 +8,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { getAllCommentsAction } from "redux/actions/CommentsAction";
 import AdminTemplate from "templates/AdminTemplate/AdminTemplate";
 
-import Test from "Test";
-
 import HomeTemplate from "templates/HomeTemplate/HomeTemplate";
 import Detail from "pages/Detail/Detail";
 import Dashboard from "pages/Admin/Dashboard/Dashboard";
@@ -53,7 +51,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="detail/:id" element={<Detail />} />
-        <Route path="test" element={<Test />} />
 
         <Route path="" element={<HomeTemplate />}>
           <Route index path="" element={<Home />}></Route>
