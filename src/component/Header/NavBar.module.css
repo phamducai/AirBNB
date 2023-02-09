@@ -93,12 +93,13 @@ nav {
   }
 
   .profile_menu_flex {
-    position: fixed;
+    position: absolute;
     top: 0.5rem;
     right: 1.5rem;
   }
 
   .bottom_nav {
+    z-index: 20;
     display: block;
     position: fixed;
     bottom: 0;

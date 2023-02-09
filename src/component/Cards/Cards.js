@@ -10,8 +10,9 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { Link } from "react-router-dom";
 
-export const Cards = ({ AllRoom }) => {
+export const Cards = ({ room }) => {
   const list = [
     {
       rating: "4",
@@ -179,59 +180,57 @@ export const Cards = ({ AllRoom }) => {
   ];
 
   return (
-    <div className={"card_flex "}>
-      {AllRoom.slice(0, 35).map((room) => {
-        return (
-          <div key={room.id} className={"card_box"}>
-            <Swiper
-              modules={[Navigation, Pagination]}
-              spaceBetween={50}
-              slidesPerView={1}
-              mousewheel={true}
-              pagination={{ clickable: true }}
-              scrollbar={{ draggable: true }}
-              style={{ height: "300px", width: "300px" }}
-            >
-              {list[0].imgSrc.map((item) => {
-                return (
-                  <SwiperSlide>
-                    <img className={"card_img"} src={room.hinhAnh} alt="" />;
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-            <div className={"card_info_flex"}>
-              <h3 className={"card_title"}>
-                {room.tenPhong.length > 30
-                  ? room.tenPhong.substr(0, 30) + "..."
-                  : room.tenPhong}
-              </h3>
-              <div className={"card_rating"}>
-                <p>
-                  <GradeIcon />
-                </p>
-                <p>4.88</p>
-              </div>
-            </div>
-            <p style={{ color: "var(--font-grey)", margin: "0" }}>
-              Mô tả:{" "}
-              {room.moTa.length > 40
-                ? room.moTa.substr(0, 40) + "..."
-                : room.moTa}
+    <div className={"  "}>
+      <div key={room.id} className={"card_box"}>
+        <Swiper
+          modules={[Navigation, Pagination]}
+          spaceBetween={50}
+          slidesPerView={1}
+          mousewheel={true}
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          style={{ height: "380px", width: "100% " }}
+        >
+          {list[0].imgSrc.map((item, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <img className={"card_img"} src={room.hinhAnh} alt="" />;
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+        <div className={"card_info_flex"}>
+          <Link
+            to={`detail/${room.id}`}
+            className={"card_title no-underline text-black"}
+          >
+            {room.tenPhong.length > 30
+              ? room.tenPhong.substr(0, 30) + "..."
+              : room.tenPhong}
+          </Link>
+          <div className={"card_rating"}>
+            <p>
+              <GradeIcon />
             </p>
-
-            <p
-              style={{
-                color: "var(--black)",
-                marginTop: "0.5rem",
-                fontSize: "0.8rem",
-              }}
-            >
-              <strong>${room.giaTien}</strong>
-            </p>
+            <p>4.88</p>
           </div>
-        );
-      })}
+        </div>
+        <p style={{ color: "var(--font-grey)", margin: "0 7px" }}>
+          Mô tả:
+          {room.moTa.length > 50 ? room.moTa.substr(0, 50) + "..." : room.moTa}
+        </p>
+
+        <p
+          style={{
+            color: "var(--black)",
+            margin: "0 7px",
+            marginTop: "0.5rem",
+            fontSize: "0.8rem",
+          }}
+        >
+          <strong>${room.giaTien}</strong>
+        </p>
+      </div>
     </div>
   );
 };
