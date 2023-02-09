@@ -25,7 +25,6 @@ export class BookRoom extends baseService {
   };
   //  delete /api/dat-phong/{id}
   deleteRoom = (rommid) => {
-    console.log(rommid);
     return this.delete(`/api/dat-phong/${rommid}`);
   };
   //   /api/dat-phong/lay-theo-nguoi-dung/{MaNguoiDung}

@@ -33,17 +33,19 @@ export const PostRentalRoomAction = (data) => {
 
 // GETBYLocation
 export const getRentalRoomByLocationAction = (locationid) => {
-  return async (dispatch) => {
-    try {
-      const result = await room.getRentalRoombyLocaltionID(locationid);
-      dispatch({
-        type: GET_ALL_RENTAL_ROOM,
-        payload: result.data.content,
-      });
-    } catch (errors) {
-      console.log("errors", errors);
-    }
-  };
+  if (locationid) {
+    return async (dispatch) => {
+      try {
+        const result = await room.getRentalRoombyLocaltionID(locationid);
+        dispatch({
+          type: GET_ALL_RENTAL_ROOM,
+          payload: result.data.content,
+        });
+      } catch (errors) {
+        console.log("errors", errors);
+      }
+    };
+  }
 };
 
 //Search
@@ -54,17 +56,12 @@ export const GetPaginationSearchRentalRoomAction = (
 ) => {
   return async (dispatch) => {
     try {
-      const result = await room.getSearchbyPage(
-        (pageIndex = 1),
-        (pageSize = 10),
-        (keyword = "")
-      );
-      if (result.data.statusCode === 200) {
-        dispatch({
-          type: GET_PAGINATION_SEARCH,
-          payload: result.data.content,
-        });
-      }
+      const result = await room.getSearchbyPage(pageIndex, pageSize, keyword);
+
+      dispatch({
+        type: GET_ALL_RENTAL_ROOM,
+        payload: result.data.content,
+      });
     } catch (error) {
       throw error;
     }
