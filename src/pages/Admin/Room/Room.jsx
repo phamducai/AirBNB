@@ -6,9 +6,11 @@ import { useEffect } from "react";
 import {
   deleteRentalRoomAction,
   getAllRentalRoomAction,
+  getRentalRoomByLocationAction,
 } from "redux/actions/RetalRoomAction";
 import { Fragment } from "react";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { useState } from "react";
 
 const { Search } = Input;
 function Room() {
@@ -123,11 +125,16 @@ function Room() {
   ];
   const data = Array.isArray(room) ? room : [room];
 
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", pagination, filters, sorter, extra);
+  const onChange = (pagination) => {
+    console.log("params", pagination.current);
   };
   const onsearch = async (e) => {
-    console.log(e.target.value);
+    let regex = /^\d+$/;
+    if (regex.test(e.target.value)) {
+      dispatch(getRentalRoomByLocationAction(e.target.value));
+    } else {
+      dispatch(getAllRentalRoomAction());
+    }
   };
   return (
     <div>
@@ -137,12 +144,12 @@ function Room() {
         <Button className="mb-5">Add Room</Button>
       </Link>
       <Search
-        placeholder="
-  User Search By Name"
+        placeholder="Location ID ...Vui long nhap so"
         enterButton="Search"
         size="large"
         name="search"
         onChange={onsearch}
+        pattern=""
       />
       <Table
         columns={columns}

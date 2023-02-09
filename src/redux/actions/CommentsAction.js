@@ -24,6 +24,7 @@ export const PostCommentAction = (data) => {
       console.log(result);
     } catch (errors) {
       console.log(errors.response?.data);
+      throw errors;
     }
   };
 };

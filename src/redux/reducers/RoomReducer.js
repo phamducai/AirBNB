@@ -25,9 +25,7 @@ export const RoomReducers = (state = inititalState, action) => {
       case "DELETE_ROOM":
         draft.getRenderRoomrByID = null;
         break;
-      case GET_SEARCH_RENTAL_ROOM_BY_LOCATION:
-        draft.getSearchByRenderRoom = action.payload;
-        break;
+
       default:
         break;
     }

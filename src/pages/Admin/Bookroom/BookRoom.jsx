@@ -1,11 +1,16 @@
 import React, { Fragment } from "react";
-import { Button, Table, Input } from "antd";
+import { Button, Table, Input, Space } from "antd";
 import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import {
   deleteRooomAction,
   getAllRoomAction,
@@ -13,10 +18,126 @@ import {
 import { getAllRentalRoomAction } from "redux/actions/RetalRoomAction";
 
 import { getAlllocationAction } from "redux/actions/LocationAction";
-
-const { Search } = Input;
+import Highlighter from "react-highlight-words";
+import { useRef } from "react";
+import { useState } from "react";
 
 function BookRoom() {
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+      close,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,14 +152,13 @@ function BookRoom() {
 
   const room = useSelector((state) => state.RoomReducers.getAllRenderRoom);
 
-  const AllLocations = useSelector(
+  const AllLocation = useSelector(
     (state) => state.LocationReducer.getAllLocation
   );
 
   //   let uniqueArray = _.uniqBy(BookRoom, "maPhong");
 
-  console.log(BookRoom);
-  const AllLocation = AllLocations?.map(({ hinhAnh, ...rest }) => rest);
+  //  const AllLocation = AllLocations?.map(({ hinhAnh, ...rest }) => rest);
 
   let combinedArrays = BookRoom?.map((room1) => {
     let match = room?.find((item) => room1.maPhong === item.id);
@@ -75,6 +195,7 @@ function BookRoom() {
           </Fragment>
         );
       },
+      ...getColumnSearchProps("tenPhong"),
     },
     {
       title: "Image",
@@ -101,6 +222,7 @@ function BookRoom() {
       title: "Location",
       dataIndex: "tenViTri",
       width: "15%",
+      ...getColumnSearchProps("tenViTri"),
     },
     {
       title: "Guest Max",
@@ -148,18 +270,17 @@ function BookRoom() {
               <DeleteOutlined
                 style={{ color: "red" }}
                 onClick={() => {
-                  dispatch(deleteRooomAction(item.id));
-                  // if (
-                  //   window.confirm(
-                  //     "Are you sure you want to delete" + item.id + "?"
-                  //   )
-                  // ) {
-                  //   dispatch(deleteRooomAction(item.id));
-                  //   dispatch(getAllRoomAction());
-                  //   dispatch(getAllRentalRoomAction());
-                  //   dispatch(getAlllocationAction());
-                  //   alert("DELETE Success");
-                  // }
+                  if (
+                    window.confirm(
+                      "Are you sure you want to delete" + item.id + "?"
+                    )
+                  ) {
+                    dispatch(deleteRooomAction(item.id));
+                    dispatch(getAllRoomAction());
+                    dispatch(getAllRentalRoomAction());
+                    dispatch(getAlllocationAction());
+                    alert("DELETE Success");
+                  }
                 }}
               />{" "}
             </span>
@@ -168,31 +289,19 @@ function BookRoom() {
       },
     },
   ];
-  const data = Array.isArray(combinedArray2)
-    ? combinedArray2
-    : [combinedArray2];
+  const data = combinedArray2 ? combinedArray2 : null;
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
   };
-  const onsearch = async (e) => {
-    // await dispatch(getAdminUserByNameUserAction(e.target.value));
-  };
 
   return (
-    combinedArray2[1]?.tenViTri && (
+    combinedArray2[0]?.tenViTri && (
       <div>
         <h1 className="text-3xl mb-5">User Management</h1>
         <Link to="/admin/bookrooms/addroom">
-          <Button className="mb-5">Add User</Button>
+          <Button className="mb-5">Add Book Room</Button>
         </Link>
-        <Search
-          placeholder="
-        User Search By Name"
-          enterButton="Search"
-          size="large"
-          name="search"
-          onChange={onsearch}
-        />
+
         <Table
           columns={columns}
           dataSource={data}
