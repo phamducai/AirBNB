@@ -34,7 +34,6 @@ export const PostRentalRoomAction = (data) => {
 // GETBYLocation
 export const getRentalRoomByLocationAction = (locationid) => {
   if (locationid) {
-    console.log("haha");
     return async (dispatch) => {
       try {
         const result = await room.getRentalRoombyLocaltionID(locationid);
