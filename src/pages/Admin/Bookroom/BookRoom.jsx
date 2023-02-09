@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import dayjs from "dayjs";
+import _ from "lodash";
 
 import {
   DeleteOutlined,
@@ -167,11 +168,9 @@ function BookRoom() {
 
   //   let combinedArray = combinedArrays.filter((obj) => obj.maPhong !== 0);
 
-  let combinedArray2 = combinedArrays?.map((roomss) => {
-    let location = AllLocation?.find(
-      (location) => roomss.maViTri === location.id
-    );
-    return { ...location, ...roomss };
+  let combinedArray2 = _.map(combinedArrays, (roomss) => {
+    let location = _.find(AllLocation, { id: roomss.maViTri });
+    return _.assign({}, location, roomss);
   });
 
   const columns = [
@@ -278,7 +277,7 @@ function BookRoom() {
                     dispatch(deleteRooomAction(item.id));
                     dispatch(getAllRoomAction());
                     dispatch(getAllRentalRoomAction());
-                    dispatch(getAlllocationAction());
+
                     alert("DELETE Success");
                   }
                 }}
@@ -295,6 +294,7 @@ function BookRoom() {
   };
 
   return (
+    AllLocation &&
     combinedArray2[0]?.tenViTri && (
       <div>
         <h1 className="text-3xl mb-5">User Management</h1>

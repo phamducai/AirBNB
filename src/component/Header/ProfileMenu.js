@@ -41,8 +41,8 @@ export default function ProfileMenu() {
         }}
         className={clsx(styles.profile_menu_flex)}
       >
-        {userdetail?.name.length > 12
-          ? userdetail?.name.substr(0, 12) + "..."
+        {userdetail?.name.length > 8
+          ? userdetail?.name.substr(0, 8) + "..."
           : ""}
         {userdetail?.name ? "" : <MenuIcon />} <AccountCircleIcon />
       </div>

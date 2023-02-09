@@ -32,7 +32,7 @@ export default function NavBar() {
   return (
     <header>
       <nav className="">
-        <Link to={"/"}><img src={logo} className={clsx(styles.navbar_logo)} alt="" /></Link>        
+        <img src={logo} className={clsx(styles.navbar_logo)} alt="" />
         <div
           className={clsx(styles.search_bar)}
           onClick={() => {

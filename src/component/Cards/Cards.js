@@ -180,45 +180,46 @@ export const Cards = ({ room }) => {
   ];
 
   return (
-    <div className={"  "}>
-      <div key={room.id} className={"card_box"}>
-        <Swiper
-          modules={[Navigation, Pagination]}
-          spaceBetween={50}
-          slidesPerView={1}
-          mousewheel={true}
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          style={{ height: "380px", width: "100% " }}
-        >
-          {list[0].imgSrc.map((item, index) => {
-            return (
-              <SwiperSlide key={index}>
-                <img className={"card_img"} src={room.hinhAnh} alt="" />;
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
-        <div className={"card_info_flex"}>
-          <Link
-            to={`detail/${room.id}`}
-            className={"card_title no-underline text-black text-base font-bold"}
-          >
-            {room.tenPhong.length > 30
-              ? room.tenPhong.substr(0, 30) + "..."
-              : room.tenPhong}
-          </Link>
-          <div className={"card_rating"}>
-            <p>
-              <GradeIcon />
+    <div className={"card_flex "}>
+      {AllRoom.slice(0, 35).map((room) => {
+        return (
+          <div key={room.id} className={"card_box"}>
+            <Swiper
+              modules={[Navigation, Pagination]}
+              spaceBetween={50}
+              slidesPerView={1}
+              mousewheel={true}
+              pagination={{ clickable: true }}
+              scrollbar={{ draggable: true }}
+              style={{ height: "300px", width: "300px" }}
+            >
+              {list[0].imgSrc.map((item) => {
+                return (
+                  <SwiperSlide>
+                    <img className={"card_img"} src={room.hinhAnh} alt="" />;
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+            <div className={"card_info_flex"}>
+              <h3 className={"card_title"}>
+                {room.tenPhong.length > 30
+                  ? room.tenPhong.substr(0, 30) + "..."
+                  : room.tenPhong}
+              </h3>
+              <div className={"card_rating"}>
+                <p>
+                  <GradeIcon />
+                </p>
+                <p>4.88</p>
+              </div>
+            </div>
+            <p style={{ color: "var(--font-grey)", margin: "0" }}>
+              Mô tả:{" "}
+              {room.moTa.length > 40
+                ? room.moTa.substr(0, 40) + "..."
+                : room.moTa}
             </p>
-            <p>4.88</p>
-          </div>
-        </div>
-        <p style={{ color: "var(--font-grey)", margin: "0 7px" }}>
-          Mô tả:
-          {room.moTa.length > 50 ? room.moTa.substr(0, 50) + "..." : room.moTa}
-        </p>
 
         <p
           style={{
@@ -234,31 +235,3 @@ export const Cards = ({ room }) => {
     </div>
   );
 };
-
-{
-  /* <div style={{ width: "80vh", position: "relative" }}>
-          <div className="swiper-button image-swiper-button-next">
-            <ArrowForwardIosIcon />
-          </div>
-          <div className="swiper-button image-swiper-button-prev">
-            <ArrowBackIosNewIcon />
-          </div>
-          <Swiper
-            navigation={{
-              nextEl: ".image-swiper-button-next",
-              prevEl: ".image-swiper-button-prev",
-              disabledClass: "swiper-button-disabled",
-            }}
-            modules={[Navigation]}
-            className="mySwiper"
-          >
-            {list[0].imgSrc.map((item) => {
-              return (
-                <SwiperSlide>
-                  <img className={"card_img"} src={item} alt="" />;
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div> */
-}

@@ -104,20 +104,24 @@ function DetailRoom({ paramsId }) {
 
   // post data
   const postData = async () => {
-    const data = {
-      id: 0,
-      maPhong: 2,
-      ngayDen: dateRange && dateRange[0],
-      ngayDi: dateRange && dateRange[1],
-      soLuongKhach: num,
-      maNguoiDung: 2171,
-    };
-    try {
-      await dispatch(PostRoomAction(data));
-      console.log(data);
-      message.success("Đặt phòng thành công!");
-    } catch (err) {
-      message.error("Vui lòng chọn ngày");
+    if (user?.id) {
+      const data = {
+        id: 0,
+        maPhong: paramsId,
+        ngayDen: dateRange && dateRange[0],
+        ngayDi: dateRange && dateRange[1],
+        soLuongKhach: num,
+        maNguoiDung: user?.id,
+      };
+      try {
+        await dispatch(PostRoomAction(data));
+        console.log(data);
+        message.success("Đặt phòng thành công!");
+      } catch (err) {
+        message.error("Vui lòng chọn ngày");
+      }
+    } else {
+      message.error("Vui lòng đăng nhập");
     }
   };
 
@@ -141,7 +145,7 @@ function DetailRoom({ paramsId }) {
   const postComment = async () => {
     const data = {
       id: 0,
-      maPhong: 2,
+      maPhong: paramsId,
       maNguoiBinhLuan: user?.id,
       ngayBinhLuan: dayjs().format("DD/MM/YYYY"),
       noiDung: commentValue,
@@ -590,7 +594,7 @@ function DetailRoom({ paramsId }) {
                     Tổng <span className="text-lg">(Chưa VAT)</span>
                   </td>
                   <td className="text-2xl text-right p-6 pt-0 font-bold">
-                    {detailRoom?.giaTien * days} $
+                    {detailRoom?.giaTien * days * num} $
                   </td>
                 </tr>
               </tbody>
