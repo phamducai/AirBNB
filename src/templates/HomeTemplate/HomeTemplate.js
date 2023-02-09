@@ -3,7 +3,7 @@ import { Cards } from "component/Cards/Cards";
 import Filter from "component/Filter/Filter";
 import Footer from "component/Footer/Footer";
 import NavBar from "component/Header/NavBar";
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";

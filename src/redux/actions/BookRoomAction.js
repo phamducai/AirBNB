@@ -27,6 +27,7 @@ export const PostRoomAction = (data) => {
       let result = await bookroom.postRoom(data);
       console.log(result);
     } catch (errors) {
+      console.log("errors", errors);
       throw errors;
     }
   };
@@ -48,6 +49,7 @@ export const getRoomByIDAction = (roomid) => {
 };
 //PUT /api/dat-phong/{id}
 export const UpdateRoomAction = (roomid, data) => {
+  console.log("haha");
   return async (dispatch) => {
     try {
       let result = await bookroom.putRoom(roomid, data);

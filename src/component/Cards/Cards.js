@@ -201,8 +201,8 @@ export const Cards = ({ room }) => {
         </Swiper>
         <div className={"card_info_flex"}>
           <Link
-            to={`detail/${room.id}`}
-            className={"card_title no-underline text-black"}
+            to={`/detail/${room.id}`}
+            className={"card_title no-underline text-black font-bold"}
           >
             {room.tenPhong.length > 30
               ? room.tenPhong.substr(0, 30) + "..."
@@ -234,31 +234,3 @@ export const Cards = ({ room }) => {
     </div>
   );
 };
-
-{
-  /* <div style={{ width: "80vh", position: "relative" }}>
-          <div className="swiper-button image-swiper-button-next">
-            <ArrowForwardIosIcon />
-          </div>
-          <div className="swiper-button image-swiper-button-prev">
-            <ArrowBackIosNewIcon />
-          </div>
-          <Swiper
-            navigation={{
-              nextEl: ".image-swiper-button-next",
-              prevEl: ".image-swiper-button-prev",
-              disabledClass: "swiper-button-disabled",
-            }}
-            modules={[Navigation]}
-            className="mySwiper"
-          >
-            {list[0].imgSrc.map((item) => {
-              return (
-                <SwiperSlide>
-                  <img className={"card_img"} src={item} alt="" />;
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-        </div> */
-}

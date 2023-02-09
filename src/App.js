@@ -30,6 +30,9 @@ import Login from "pages/Login/Login";
 import Register from "pages/Resgiter/Register";
 import { LoginAction } from "redux/actions/AuthAction";
 import LocationClient from "pages/LocationClient/LocationClient";
+import { getAlllocationAction } from "redux/actions/LocationAction";
+import { ImportOutlined } from "@ant-design/icons";
+import _ from "lodash";
 
 function App() {
   let user = JSON.parse(localStorage.getItem("data"));
@@ -41,7 +44,7 @@ function App() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllCommentsAction());
+    dispatch(getAlllocationAction());
     if (user) {
       dispatch(LoginAction(data));
     }
