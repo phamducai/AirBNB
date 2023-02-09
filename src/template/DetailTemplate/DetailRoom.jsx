@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "./DetailRoom.module.css";
 
 import {
   Button,
@@ -44,7 +45,6 @@ import { PostCommentAction } from "redux/actions/CommentsAction";
 
 import dayjs from "dayjs";
 import { getCommentByRoomAction } from "redux/actions/CommentsAction";
-import moment from "moment/moment";
 
 const { TextArea } = Input;
 
@@ -60,8 +60,10 @@ function DetailRoom() {
   const comment = useSelector(
     (state) => state.CommentsReducer.getCommentsWithroom
   );
+  const user = useSelector((state) => state.Auth.userInformation);
+  console.log(user?.name);
   //Binh Luan
-  console.log(comment);
+  console.log(dayjs().format("DD/MM/YYYY"));
 
   useEffect(() => {
     dispatch(getRentalRoomByIDAction(1));
@@ -136,13 +138,15 @@ function DetailRoom() {
   const [form] = Form.useForm();
   const commentValue = Form.useWatch("comment", form);
 
+
+
   // post comment
   const postComment = async () => {
     const data = {
       id: 0,
       maPhong: 2,
-      maNguoiBinhLuan: 0,
-      ngayBinhLuan: "08/02/2023",
+      maNguoiBinhLuan: user?.id,
+      ngayBinhLuan: dayjs().format("DD/MM/YYYY"),
       noiDung: commentValue,
       saoBinhLuan: 0,
     };
@@ -164,27 +168,29 @@ function DetailRoom() {
 
   return (
     <div className="container m-auto">
-      <h1 className="mt-6 py-2 text-3xl font-bold">{detailRoom?.tenPhong}</h1>
+      <h1 className="mt-6 py-2 lg:text-3xl sm:text-xl font-bold">
+        {detailRoom?.tenPhong}
+      </h1>
       <img
         className="w-full mb-4 rounded-2xl"
         src={detailRoom?.hinhAnh}
         alt=""
       />
-      <Row>
-        <Col span={16} className="pr-32">
+      <div className="lg:flex sm:inline-block">
+        <div className="pr-32 lg:w-2/3 sm:pr-5">
           <div className="py-5 border-solid border-rose-300 border-0 border-b-2">
             <Row>
               <Col span={20}>
-                <h2 className="font-bold text-2xl m-0">
+                <h2 className="font-bold lg:text-2xl sm:text-lg m-0">
                   Toàn bộ căn hộ. Chủ nhà Sungwon
                 </h2>
-                <p className="text-lg m-0">
+                <p className="lg:text-lg sm:text-base m-0">
                   {detailRoom?.khach} phòng khách. {detailRoom?.phongNgu} phòng
                   ngủ. {detailRoom?.phongTam} phòng tắm
                 </p>
               </Col>
               <Col span={4}>
-                <Avatar size={64} icon={<UserOutlined />} />
+                <Avatar size={64} icon={<UserOutlined src={user?.avatar} />} />
               </Col>
             </Row>
           </div>
@@ -491,10 +497,10 @@ function DetailRoom() {
               </tbody>
             </table>
           </div>
-        </Col>
-        <Col span={8} className="py-5">
-          <div className="shadow-lg shadow-red-300 rounded-2xl sticky top-0">
-            <table>
+        </div>
+        <div className="lg:w-1/3 sm:w-full py-5">
+          <div className="shadow-lg shadow-red-300 rounded-2xl sticky">
+            <table className="m-auto">
               <tbody>
                 <tr>
                   <td colSpan={2} className="px-6 pt-4">
@@ -509,8 +515,12 @@ function DetailRoom() {
                   <td className="pl-3 text-lg font-medium" colSpan={2}>
                     <span className="pr-20">Nhận phòng</span>
                     <span>Trả phòng</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan={2}>
                     <RangePicker
-                      className="m-5 mt-1"
+                      className="mt-1 mb-3 w-full"
                       format={"YYYY-MM-DD"}
                       onChange={onChanges}
                     />
@@ -589,8 +599,8 @@ function DetailRoom() {
               </tbody>
             </table>
           </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
       <div className="py-7">
         <div className="rounded-xl bg-orange-100 p-5 mb-5">
           <h2 className="text-rose-500 m-0 text-3xl font-semibold">
@@ -602,7 +612,7 @@ function DetailRoom() {
         <div>
           {comment.map((item) => {
             return (
-              <div className="mb-7">
+              <div className="mb-7" key={item.noiDung}>
                 <div className="flex">
                   <Avatar
                     className="mr-4 mb-2"
@@ -616,7 +626,7 @@ function DetailRoom() {
                     </h3>
                     {/* <Rate value={item.saoBinhLuan} count={5} /> */}
                     <p className="text-sm text-gray-500 m-0">
-                      {moment(item.ngayBinhLuan).format("DD-MM-yyyy")}
+                      {dayjs(item.ngayBinhLuan).format("DD-MM-YYYY")}
                     </p>
                   </div>
                 </div>
@@ -628,48 +638,53 @@ function DetailRoom() {
         <button className="cursor-pointer py-3 px-5 rounded-lg border mb-7 bg-white hover:bg-gray-200 text-base font-semibold">
           Hiển thị tất cả bình luận
         </button>
-        <div className="flex">
-          <Avatar
-            className="mr-4 mb-2"
-            src=""
-            size="large"
-            icon={<UserOutlined />}
-          />
-          <div className="w-full">
-            <h3 className="mb-0 font-semibold">Tên người dùng</h3>
-            {/* <Rate value={""} count={5} /> */}
-            <Form form={form} layout="vertical" autoComplete="off">
-              <Form.Item
-                name="comment"
-                label=""
-                rules={[
-                  {
-                    required: true,
-                    message: "Bình luận không được để trống!",
-                  },
-                ]}
-              >
-                <TextArea
-                  className="w-1/2"
-                  rows={4}
-                  placeholder="Nhập bình luận..."
-                />
-                {/* <Input placeholder="Nhập đánh giá" className="w-1/2 h-20" /> */}
-              </Form.Item>
-              <Form.Item>
-                <Space>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    onClick={postComment}
+        <div>
+            {user && (
+              <div className="flex">
+              <Avatar
+                className="mr-4 mb-2"
+                size="large"
+                icon={<UserOutlined />}
+                src={user?.avatar}
+              />          
+              <div className="w-full">
+                <h3 className="mb-2 font-semibold">{user?.name}</h3>
+                {/* <Rate value={""} count={5} /> */}
+                <Form
+                  form={form}
+                  layout="vertical"
+                  autoComplete="off"
+                  onFinish={postComment}
+                >
+                  <Form.Item
+                    name="comment"
+                    label=""
+                    rules={[
+                      {
+                        required: true,
+                        message: "Bình luận không được để trống!",
+                      },
+                    ]}
                   >
-                    Thêm Đánh Giá
-                  </Button>
-                </Space>
-              </Form.Item>
-            </Form>
-          </div>
-        </div>
+                    <TextArea
+                      className="w-1/2"
+                      rows={4}
+                      placeholder="Nhập bình luận..."
+                    />
+                    {/* <Input placeholder="Nhập đánh giá" className="w-1/2 h-20" /> */}
+                  </Form.Item>
+                  <Form.Item>
+                    <Space>
+                      <Button type="primary" htmlType="submit">
+                        Thêm Đánh Giá
+                      </Button>
+                    </Space>
+                  </Form.Item>
+                </Form>
+              </div>
+            </div>              
+            )}
+          </div>        
       </div>
     </div>
   );
