@@ -177,7 +177,7 @@ function DetailRoom({ paramsId }) {
         alt=""
       />
       <div className="lg:flex sm:inline-block">
-        <div className="pr-32 lg:w-2/3 sm:pr-5">
+        <div className="lg:pr-24 lg:w-2/3 sm:pr-5">
           <div className="py-5 border-solid border-rose-300 border-0 border-b-2">
             <Row>
               <Col span={20}>
@@ -400,7 +400,7 @@ function DetailRoom({ paramsId }) {
             <h2 className="text-xl font-bold">Nơi này có những gì cho bạn?</h2>
             <table className="w-full">
               <tbody>
-                <tr className="flex gap-52 text-base">
+                <tr className="flex sm:gap-52 text-base">
                   <td className="mb-2 flex flex-col w-auto gap-4">
                     {detailRoom?.mayGiat ? (
                       <div>
@@ -499,8 +499,8 @@ function DetailRoom({ paramsId }) {
           </div>
         </div>
         <div className="lg:w-1/3 sm:w-full py-5">
-          <div className="shadow-lg shadow-red-300 rounded-2xl sticky">
-            <table className="m-auto">
+          <div className="shadow-lg shadow-red-300 rounded-2xl lg:sticky lg:top-0">
+            <table className="sm:m-auto">
               <tbody>
                 <tr>
                   <td colSpan={2} className="px-6 pt-4">

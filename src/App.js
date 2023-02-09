@@ -54,7 +54,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="detail/:id" element={<Detail />} />
-        <Route path="locationClient/:id/detail/:id" element={<Detail />} />
 
         <Route path="" element={<HomeTemplate />}>
           <Route index path="" element={<Home />}></Route>

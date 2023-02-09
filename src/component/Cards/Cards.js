@@ -202,7 +202,7 @@ export const Cards = ({ room }) => {
         <div className={"card_info_flex"}>
           <Link
             to={`/detail/${room.id}`}
-            className={"card_title no-underline text-black font-bold"}
+            className={"card_title no-underline text-black font-bold text-base pb-0"}
           >
             {room.tenPhong.length > 30
               ? room.tenPhong.substr(0, 30) + "..."
@@ -215,7 +215,7 @@ export const Cards = ({ room }) => {
             <p>4.88</p>
           </div>
         </div>
-        <p style={{ color: "var(--font-grey)", margin: "0 7px" }}>
+        <p className="text-sm" style={{ color: "var(--font-grey)", margin: "0 7px" }}>
           Mô tả:
           {room.moTa.length > 50 ? room.moTa.substr(0, 50) + "..." : room.moTa}
         </p>
@@ -223,12 +223,11 @@ export const Cards = ({ room }) => {
         <p
           style={{
             color: "var(--black)",
-            margin: "0 7px",
-            marginTop: "0.5rem",
+            margin: "0.5rem 7px 5px",
             fontSize: "0.8rem",
           }}
         >
-          <strong>${room.giaTien}</strong>
+          <strong>${room.giaTien}</strong>/đêm
         </p>
       </div>
     </div>
