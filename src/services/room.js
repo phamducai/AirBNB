@@ -18,19 +18,24 @@ export class Room extends baseService {
   // getroombyLocaltionID
   //   /api/phong-thue/lay-phong-theo-vi-tri
   getRentalRoombyLocaltionID = (locationID) => {
-    return this.get(
-      `/api/phong-thue/lay-phong-theo-vi-tri?maViTri=${locationID}`
-    );
+    if (locationID) {
+      return this.get(
+        `/api/phong-thue/lay-phong-theo-vi-tri?maViTri=${locationID}`
+      );
+    }
   };
 
   //   /api/phong-thue/phan-trang-tim-kiem
 
   getSearchbyPage = (pageIndex = 1, pageSize = 10, keyword = "") => {
-    if (keyword.trim() !== "") {
+    console.log(pageIndex, pageSize, keyword);
+    if (keyword.trim() === "") {
+      console.log("haha");
       return this.get(
         `/api/phong-thue/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}`
       );
     } else {
+      console.log("huhu");
       return this.get(
         `/api/phong-thue/phan-trang-tim-kiem?pageIndex=${pageIndex}&pageSize=${pageSize}&keyword=${keyword}`
       );
