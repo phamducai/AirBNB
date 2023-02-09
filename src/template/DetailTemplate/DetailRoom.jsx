@@ -45,7 +45,6 @@ import { PostCommentAction } from "redux/actions/CommentsAction";
 
 import dayjs from "dayjs";
 import { getCommentByRoomAction } from "redux/actions/CommentsAction";
-import { useParams } from "react-router";
 
 const { TextArea } = Input;
 
