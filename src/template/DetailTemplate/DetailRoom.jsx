@@ -13,6 +13,7 @@ import {
   Avatar,
   Space,
   Rate,
+  message,
 } from "antd";
 
 import {
@@ -20,7 +21,11 @@ import {
   CalendarOutlined,
   CaretDownOutlined,
   CaretUpOutlined,
+  CarOutlined,
+  DoubleRightOutlined,
   HeatMapOutlined,
+  RightOutlined,
+  StarOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
@@ -104,10 +109,15 @@ function DetailRoom() {
       ngayDen: dateRange && dateRange[0],
       ngayDi: dateRange && dateRange[1],
       soLuongKhach: num,
-      maNguoiDung: 2171
+      maNguoiDung: 2171,
     };
-    await dispatch(PostRoomAction(data));
-    console.log(data);
+    try {
+      await dispatch(PostRoomAction(data));
+      console.log(data);
+      message.success("Đặt phòng thành công!");
+    } catch (err) {
+      message.error("Vui lòng chọn ngày");
+    }
   };
 
   // modal
@@ -134,10 +144,15 @@ function DetailRoom() {
       maNguoiBinhLuan: 0,
       ngayBinhLuan: "08/02/2023",
       noiDung: commentValue,
-      saoBinhLuan: 0
+      saoBinhLuan: 0,
     };
-    await dispatch(PostCommentAction(data));
-    console.log("comment" + data);
+    try {
+      await dispatch(PostCommentAction(data));
+      message.success("Bình luận thành công!");
+      console.log(data);
+    } catch (err) {
+      // message.error("Bình luận không được để trống");
+    }
   };
 
   // show chi tiết
@@ -149,28 +164,36 @@ function DetailRoom() {
 
   return (
     <div className="container m-auto">
-      <h1 className="mt-5 py-2 text-3xl font-bold">{detailRoom?.tenPhong}</h1>
+      <h1 className="mt-6 py-2 text-3xl font-bold">{detailRoom?.tenPhong}</h1>
       <img
-        className="w-full mb-9 rounded-2xl"
+        className="w-full mb-4 rounded-2xl"
         src={detailRoom?.hinhAnh}
-        alt="" />
+        alt=""
+      />
       <Row>
-        <Col span={16}>
-          <div className="mr-40 border-solid border-rose-300 border-0 border-b-2">
-            <h2 className="font-bold text-2xl">
-              Toàn bộ căn hộ. Chủ nhà Sungwon
-            </h2>
-            <p className="text-lg">
-              {detailRoom?.khach} phòng khách. {detailRoom?.phongNgu} phòng ngủ.{" "}
-              {detailRoom?.phongTam} phòng tắm
-            </p>
+        <Col span={16} className="pr-32">
+          <div className="py-5 border-solid border-rose-300 border-0 border-b-2">
+            <Row>
+              <Col span={20}>
+                <h2 className="font-bold text-2xl m-0">
+                  Toàn bộ căn hộ. Chủ nhà Sungwon
+                </h2>
+                <p className="text-lg m-0">
+                  {detailRoom?.khach} phòng khách. {detailRoom?.phongNgu} phòng
+                  ngủ. {detailRoom?.phongTam} phòng tắm
+                </p>
+              </Col>
+              <Col span={4}>
+                <Avatar size={64} icon={<UserOutlined />} />
+              </Col>
+            </Row>
           </div>
-          <div className="text-lg mr-40 border-solid border-rose-300 border-0 border-b-2">
+          <div className="text-lg py-9 border-solid border-rose-300 border-0 border-b-2">
             <div className="flex py-5">
               <AntDesignOutlined className="text-3xl pr-4 font" />
               <div>
                 <p className="font-bold mb-0"> Người thiết kế là: </p>
-                <span className="text-base text-gray-500">
+                <span className="text-base text-gray-600">
                   James Atkinson & David McCormick, M-System Orchid House
                 </span>
               </div>
@@ -179,7 +202,7 @@ function DetailRoom() {
               <UserOutlined className="text-3xl pr-4" />
               <div>
                 <p className="font-bold mb-0">Sungwon là Chủ nhà siêu cấp</p>
-                <span className="text-base text-gray-500">
+                <span className="text-base text-gray-600">
                   {detailRoom?.moTa}
                 </span>
               </div>
@@ -188,33 +211,44 @@ function DetailRoom() {
               <HeatMapOutlined className="text-3xl pr-4" />
               <div>
                 <p className="font-bold mb-0">Địa điểm tuyệt vời</p>
-                <span className="text-base text-gray-500">
+                <span className="text-base text-gray-600">
                   90% khách gần đây đã xếp hạng 5 sao cho vị trí này.
+                </span>
+              </div>
+            </div>
+            <div className="flex pb-5">
+              <CarOutlined className="text-3xl pr-4" />
+              <div>
+                <p className="font-bold mb-0">Đỗ xe miễn phí</p>
+                <span className="text-base text-gray-600">
+                  Đây là một trong số ít địa điểm có chỗ đỗ xe miễn phí tại khu
+                  vực.
                 </span>
               </div>
             </div>
             <div className="flex pb-5">
               <CalendarOutlined className="text-3xl pr-4" />
               <div>
-                <p className="font-bold mb-0">Hủy miễn phí trong 48 giờ.</p>
+                <p className="font-bold mb-0">Hủy miễn phí trong 48 giờ</p>
               </div>
             </div>
           </div>
-          <div className="w-5/6 py-5 border-solid border-rose-300 border-0 border-b-2">
+          <div className="text-justify text-base py-9 border-solid border-rose-300 border-0 border-b-2">
             <img
-              className="w-40"
+              className="w-36 pb-3"
               src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg"
-              alt="" />
-            <p className="text-lg my-3">
+              alt=""
+            />
+            <p className="my-3">
               Mọi đặt phòng đều được bảo vệ miễn phí trong trường hợp Chủ nhà
               hủy, thông tin nhà/phòng cho thuê không chính xác và những vấn đề
               khác như sự cố trong quá trình nhận phòng.
             </p>
             <a
-              className="font-bold text-lg text-black underline pb-4"
+              className="font-semibold text-black underline pb-4"
               onClick={showModal}
             >
-              Tìm hiểu thêm
+              Tìm hểu thêm <DoubleRightOutlined />
             </a>
             {/* Modal */}
             <Modal
@@ -223,13 +257,14 @@ function DetailRoom() {
               onOk={handleOk}
               onCancel={handleCancel}
             >
-              <div>
+              <div className="p-5 text-justify">
                 <div className="border-solid border-rose-300 border-0 border-b-2">
                   <img
                     className="w-40"
                     src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg"
-                    alt="" />
-                  <p className="text-lg py-3 mb-1">
+                    alt=""
+                  />
+                  <p className="py-3 mb-1 text-base">
                     AirCover là chương trình bảo vệ toàn diện, được áp dụng miễn
                     phí với mọi đặt phòng.
                   </p>
@@ -237,22 +272,22 @@ function DetailRoom() {
                 <div>
                   <Row>
                     <Col className="pr-4" span={12}>
-                      <div className="py-5">
-                        <h3 className="text-base font-bold mb-1">
+                      <div className="py-5 text-base">
+                        <h4 className="font-bold mb-1">
                           Bảo đảm bảo vệ đặt phòng
-                        </h3>
-                        <span className="text-base text-gray-500">
+                        </h4>
+                        <span className="text-gray-600">
                           Trong trường hợp hãn hữu khi Chủ nhà cần hủy đặt phòng
                           của bạn trong vòng 30 ngày trước ngày nhận phòng,
                           chúng tôi sẽ tìm cho bạn một chỗ ở tương tự hoặc tốt
                           hơn, hoặc sẽ hoàn tiền cho bạn.
                         </span>
                       </div>
-                      <div>
-                        <h3 className="text-base font-bold mb-1">
+                      <div className="text-base">
+                        <h4 className="font-bold mb-1">
                           Bảo đảm chi phí tương xứng
-                        </h3>
-                        <span className="text-base text-gray-500">
+                        </h4>
+                        <span className="text-gray-600">
                           Trong thời gian ở, nếu bạn nhận thấy chỗ ở không đúng
                           như quảng cáo, ví dụ như tủ lạnh ngừng hoạt động và
                           Chủ nhà không thể dễ dàng khắc phục vấn đề này, hoặc
@@ -264,22 +299,20 @@ function DetailRoom() {
                       </div>
                     </Col>
                     <Col className="pl-4" span={12}>
-                      <div className="py-5">
-                        <h3 className="text-base font-bold mb-1">
-                          Bảo đảm nhận phòng
-                        </h3>
-                        <span className="text-base text-gray-500">
+                      <div className="py-5 text-base">
+                        <h4 className="font-bold mb-1">Bảo đảm nhận phòng</h4>
+                        <span className="text-gray-600">
                           Nếu bạn không thể nhận phòng và Chủ nhà không thể giải
                           quyết vấn đề này, chúng tôi sẽ tìm cho bạn một chỗ ở
                           tương tự hoặc tốt hơn có thời gian ở tương đương, hoặc
                           chúng tôi sẽ hoàn tiền cho bạn.
                         </span>
                       </div>
-                      <div>
-                        <h3 className="text-base font-bold mb-1">
+                      <div className="text-base">
+                        <h4 className="font-bold mb-1">
                           Đường dây an toàn 24 giờ
-                        </h3>
-                        <span className="text-base text-gray-500">
+                        </h4>
+                        <span className="text-gray-600">
                           Nếu cảm thấy không an toàn, bạn sẽ được ưu tiên liên
                           hệ với nhân viên hỗ trợ an toàn được đào tạo đặc biệt
                           của chúng tôi, bất kể ngày đêm.
@@ -291,133 +324,166 @@ function DetailRoom() {
               </div>
             </Modal>
           </div>
-          <div className="text-lg w-5/6 py-5 border-solid border-rose-300 border-0 border-b-2 relative">
-            <h2 className="text-2xl font-bold">Chúng tôi có gì cho bạn</h2>
+          <div className="text-justify text-base py-9 border-solid border-rose-300 border-0 border-b-2 relative">
+            <h2 className="text-xl font-bold">Giới thiệu về chỗ ở này</h2>
             <p>
-              The Mirror Villa is luxurious all the way and features everything
-              you can expect from a smart, upscale property of 21st century. It
-              impresses with utilizing contemporary and distinctive materials,
-              finishing with the utmost attention to details and quality,
-              innovative technologies and high-end appliances.
+              Là ngôi nhà độc lập hình vòng cung với 20m2 không gian nội thất
+              (phòng ngủ, nhà bếp, phòng tắm) và 40m2 sàn gỗ ở tầng hai. Đây là
+              công viên quốc gia, nơi trú ẩn của đom đóm và duy trì môi trường
+              tự nhiên tốt nhất để sống bên kia con lạch phía trước. Lý tưởng
+              cho nghỉ ngơi gia đình và MT theo nhóm, nhà kính mái vòm cung cấp
+              một hội thảo mỗi ngày cho tối đa 30 người.
             </p>
             <div>
               {isShow && (
                 <div>
                   <p>
-                    <span className="font-bold">The space</span> <br></br>{" "}
-                    There's a special offer for booking just 5 or 6 bedrooms of
-                    7, message us. IMPORTANT! 500 usd of Security Deposit is
-                    required upon check in. Super modern 1300 m2 House which may
-                    host up to 18 Guests in 7 spacious bedrooms designed for the
-                    most passionate and sophisticated travelers. Extra beds can
-                    be provided for extra charge.
+                    <span className="font-bold">Chỗ ở</span> <br /> Một ngôi nhà
+                    gỗ có mái vòm với tầng hai, bồn rửa tay, bếp, nhà vệ sinh và
+                    phòng tắm bên trong. Bên ngoài, có một boong rộng rãi, và
+                    toàn bộ nằm trong vườn hoa, và lúc nào cũng có hoa.
                   </p>
                   <p>
-                    <span className="font-bold">Other things to not</span>{" "}
-                    <br></br> Look how amazing is with the reflective façade walls that catch the surrounding panorama,
-                    blending into landscape rather than competing against it!
-                    This super modern 1300 m2 House which may host up to 18
-                    Guests in 7 spacious bedrooms designed for the most
-                    passionate and sophisticated travelers.
+                    <span className="font-bold">
+                      Tiện nghi khách có quyền sử dụng
+                    </span>{" "}
+                    <br></br> Đi bộ, quan sát có hoa và tự phục vụ và ngủ đều
+                    nằm trong nhà khách. <br /> Toàn bộ khu vực nhà gỗ và khu
+                    vực đỗ xe
                   </p>
-                  <p>Here is 𝐬𝐨𝐦𝐞 of the coolest Villa feautures:</p>
-                  <ul>
-                    <li>
-                      The latest '21 SONOS sound system over the whole House
-                      /Air Play 2/Symfonisk lamp speakers in bedrooms
-                    </li>
-                    <li>Gym Space/ “Mi Fit” Fitness Tracker</li>
-                    <li>
-                      Huge Pool with underwater multi color lightening system
-                    </li>
-                    <li>
-                      Automatic Waterfall inside the House • Living area with
-                      White Piano/ Soccer table/SuffleBoard game
-                    </li>
-                    <li>BBQ</li>
-                    <li>Steam Bath and Sauna</li>
-                    <li>
-                      Jacuzzi on the Rooftop • Golf Course • Control of the
-                      House via Smartphone Apps
-                    </li>
-                  </ul>
+                  <p>
+                    <span className="font-bold">Những điều cần lưu ý khác</span>
+                    <br /> Hoa là những nơi đẹp với hoa và vườn hoa. Chúc bạn
+                    tận hưởng những bông hoa, khu vườn và thiên nhiên tươi đẹp
+                    một cách trọn vẹn. <br /> Giá cơ bản của biệt thự của chúng
+                    tôi chỉ dành cho 5 khách. Mỗi lần thêm 1 người sẽ phải trả
+                    75.000 IDR. Nếu khách không đến như đã nêu trên airbnb, họ
+                    sẽ bị tính phí khi đến.
+                  </p>
                   <img
                     className="w-full mb-9 rounded-2xl"
                     src={detailRoom?.hinhAnh}
-                    alt="" />
+                    alt=""
+                  />
                 </div>
               )}
               <div className="text-center">
                 {isShow ? (
-                  <Button
-                    className="font-bold text-lg text-black"
+                  <button
+                    className="px-10 font-semibold text-lg cursor-pointer rounded-md bg-white border-dashed border-indigo-600 text-indigo-600 hover:text-indigo-400 hover:border-indigo-400"
                     type="primary"
                     ghost
                     onClick={handleShow}
                   >
                     Thu gọn <CaretUpOutlined />
-                  </Button>
+                  </button>
                 ) : (
-                  <div className="h-3/4 w-full absolute top-1/4 bg-gradient-to-b from-transparent to-white">
-                    <Button
-                      className="font-bold text-lg text-black mt-28"
-                      type="primary"
-                      ghost
+                  <div className="h-3/4 w-full absolute top-5 bg-gradient-to-b from-transparent to-white">
+                    <button
+                      className="px-10 font-semibold text-lg mt-36 cursor-pointer rounded-md bg-white border-dashed border-indigo-600 text-indigo-600 hover:text-indigo-400 hover:border-indigo-400"
                       onClick={handleShow}
                     >
                       Xem thêm <CaretDownOutlined />
-                    </Button>
+                    </button>
                   </div>
                 )}
               </div>
             </div>
           </div>
-          <div className="mr-40 py-5 border-solid border-rose-300 border-0 border-b-2">
+          <div className="py-9 border-solid border-rose-300 border-0 border-b-2">
             <h2 className="text-xl font-bold">Nơi này có những gì cho bạn?</h2>
             <table className="w-full">
               <tbody>
-                <tr className="flex gap-52 text-xl">
+                <tr className="flex gap-52 text-base">
                   <td className="mb-2 flex flex-col w-auto gap-4">
-                    {detailRoom?.mayGiat && (
+                    {detailRoom?.mayGiat ? (
                       <div>
-                        <AiOutlineFileDone /> Máy giặt
+                        <AiOutlineFileDone className="text-3xl align-middle mr-2" />{" "}
+                        Máy giặt
+                      </div>
+                    ) : (
+                      <div className="line-through">
+                        <AiOutlineFileDone className="text-3xl align-middle mr-2" />{" "}
+                        Máy giặt
                       </div>
                     )}
-                    {detailRoom?.banUi && (
+                    {detailRoom?.banUi ? (
                       <div>
-                        <AiOutlineDotChart /> Bàn ủi
+                        <AiOutlineDotChart className="text-3xl align-middle mr-2" />{" "}
+                        Bàn ủi
+                      </div>
+                    ) : (
+                      <div className="line-through">
+                        <AiOutlineDotChart className="text-3xl align-middle mr-2" />{" "}
+                        Bàn ủi
                       </div>
                     )}
-                    {detailRoom?.tivi && (
+                    {detailRoom?.tivi ? (
                       <div>
-                        <AiOutlineYoutube /> Ti Vi
+                        <AiOutlineYoutube className="text-3xl align-middle mr-2" />{" "}
+                        Ti Vi
+                      </div>
+                    ) : (
+                      <div className="line-through">
+                        <AiOutlineYoutube className="text-3xl align-middle mr-2" />{" "}
+                        Ti Vi
                       </div>
                     )}
-                    {detailRoom?.dieuHoa && (
+                    {detailRoom?.dieuHoa ? (
                       <div>
-                        <AiOutlineFileDone /> Điều hòa
+                        <AiOutlineFileDone className="text-3xl align-middle mr-2" />{" "}
+                        Điều hòa
+                      </div>
+                    ) : (
+                      <div className="line-through">
+                        <AiOutlineFileDone className="text-3xl align-middle mr-2" />{" "}
+                        Điều hòa
                       </div>
                     )}
                   </td>
                   <td className="mb-2 flex flex-col w-auto gap-4">
-                    {detailRoom?.wifi && (
+                    {detailRoom?.wifi ? (
                       <div>
-                        <AiOutlineWifi /> Wifi
+                        <AiOutlineWifi className="text-3xl align-middle mr-2" />{" "}
+                        Wifi
+                      </div>
+                    ) : (
+                      <div className="line-through">
+                        <AiOutlineWifi className="text-3xl align-middle mr-2" />{" "}
+                        Wifi
                       </div>
                     )}
-                    {detailRoom?.bep && (
+                    {detailRoom?.bep ? (
                       <div>
-                        <AiOutlineFire /> Bếp
+                        <AiOutlineFire className="text-3xl align-middle mr-2" />{" "}
+                        Bếp
+                      </div>
+                    ) : (
+                      <div className="line-through">
+                        <AiOutlineFire className="text-3xl align-middle mr-2" />{" "}
+                        Bếp
                       </div>
                     )}
-                    {detailRoom?.doXe && (
+                    {detailRoom?.doXe ? (
                       <div>
-                        <AiOutlineCar /> Đỗ xe
+                        <AiOutlineCar className="text-3xl align-middle mr-2" />{" "}
+                        Đỗ xe
+                      </div>
+                    ) : (
+                      <div className="line-through">
+                        <AiOutlineCar className="text-3xl align-middle mr-2" />{" "}
+                        Đỗ xe
                       </div>
                     )}
-                    {detailRoom?.hoBoi && (
+                    {detailRoom?.hoBoi ? (
                       <div>
-                        <AiOutlineBorderOuter /> Hồ bơi
+                        <AiOutlineBorderOuter className="text-3xl align-middle mr-2" />{" "}
+                        Hồ bơi
+                      </div>
+                    ) : (
+                      <div className="line-through">
+                        <AiOutlineBorderOuter className="text-3xl align-middle mr-2" />{" "}
+                        Hồ bơi
                       </div>
                     )}
                   </td>
@@ -426,13 +492,13 @@ function DetailRoom() {
             </table>
           </div>
         </Col>
-        <Col span={8}>
+        <Col span={8} className="py-5">
           <div className="shadow-lg shadow-red-300 rounded-2xl sticky top-0">
-            <table className="">
+            <table>
               <tbody>
                 <tr>
-                  <td colSpan={2} className="px-6">
-                    <span className="text-3xl font-bold  text-rose-500">
+                  <td colSpan={2} className="px-6 pt-4">
+                    <span className="text-3xl font-bold text-rose-500">
                       ${detailRoom?.giaTien}
                     </span>
                     <span>/đêm</span>
@@ -446,7 +512,8 @@ function DetailRoom() {
                     <RangePicker
                       className="m-5 mt-1"
                       format={"YYYY-MM-DD"}
-                      onChange={onChanges} />
+                      onChange={onChanges}
+                    />
                   </td>
                 </tr>
                 <tr className="">
@@ -469,7 +536,8 @@ function DetailRoom() {
                       <Input
                         className="form-control text-center w-full"
                         value={num + " khách"}
-                        onChange={handleChange} />
+                        onChange={handleChange}
+                      />
                       <div>
                         <Button
                           className="bg-slate-300 font-bold hover:bg-rose-500"
@@ -484,7 +552,7 @@ function DetailRoom() {
                 <tr className="text-center">
                   <td colSpan={2} className="pl-7 pr-7">
                     <Button
-                      className="w-full h-full my-3 p-3 bg-gradient-to-r from-rose-500 to-purple-700 text-xl rounded-lg font-bold text-white"
+                      className="w-full h-full my-5 p-3 bg-gradient-to-r from-rose-500 to-rose-800 text-xl rounded-lg font-bold text-white"
                       onClick={postData}
                     >
                       Đặt phòng
@@ -523,8 +591,14 @@ function DetailRoom() {
           </div>
         </Col>
       </Row>
-      <div>
-        <h2 className="my-4">ĐÁNH GIÁ SẢN PHẨM</h2>
+      <div className="py-7">
+        <div className="rounded-xl bg-orange-100 p-5 mb-5">
+          <h2 className="text-rose-500 m-0 text-3xl font-semibold">
+            4,91 <span className="font-normal text-lg">trên 5</span>
+          </h2>
+          <Rate className="text-rose-500" value={5} count={5} />
+        </div>
+        <Row></Row>
         <div>
           {comment.map((item) => {
             return (
@@ -534,9 +608,12 @@ function DetailRoom() {
                     className="mr-4 mb-2"
                     src={item.avatar}
                     size="large"
-                    icon={<UserOutlined />} />
+                    icon={<UserOutlined />}
+                  />
                   <div className="w-full">
-                    <h3 className="mb-0">{item.tenNguoiBinhLuan}</h3>
+                    <h3 className="mb-0 font-semibold">
+                      {item.tenNguoiBinhLuan}
+                    </h3>
                     {/* <Rate value={item.saoBinhLuan} count={5} /> */}
                     <p className="text-sm text-gray-500 m-0">
                       {moment(item.ngayBinhLuan).format("DD-MM-yyyy")}
@@ -548,23 +625,36 @@ function DetailRoom() {
             );
           })}
         </div>
+        <button className="cursor-pointer py-3 px-5 rounded-lg border mb-7 bg-white hover:bg-gray-200 text-base font-semibold">
+          Hiển thị tất cả bình luận
+        </button>
         <div className="flex">
           <Avatar
             className="mr-4 mb-2"
             src=""
             size="large"
-            icon={<UserOutlined />} />
+            icon={<UserOutlined />}
+          />
           <div className="w-full">
+            <h3 className="mb-0 font-semibold">Tên người dùng</h3>
             {/* <Rate value={""} count={5} /> */}
             <Form form={form} layout="vertical" autoComplete="off">
-              <Form.Item name="comment" label="Đánh giá của bạn">
+              <Form.Item
+                name="comment"
+                label=""
+                rules={[
+                  {
+                    required: true,
+                    message: "Bình luận không được để trống!",
+                  },
+                ]}
+              >
                 <TextArea
                   className="w-1/2"
                   rows={4}
-                  placeholder="Nhập bình luận"
-                  minLength={1}
-                  maxLength={100} />
-                {/* <Input placeholder="Nhập bình luận" className="w-1/2 h-20" /> */}
+                  placeholder="Nhập bình luận..."
+                />
+                {/* <Input placeholder="Nhập đánh giá" className="w-1/2 h-20" /> */}
               </Form.Item>
               <Form.Item>
                 <Space>
