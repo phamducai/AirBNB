@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, message, Modal, Upload } from "antd";
@@ -100,7 +99,7 @@ function Test() {
           )}
         </Upload>
       </Modal>
-{/* =======
+      {/* =======
 import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table } from "antd";
 import { useRef, useState } from "react";
