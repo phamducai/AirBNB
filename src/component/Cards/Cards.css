@@ -1,8 +1,11 @@
+* {
+  box-sizing: border-box;
+}
 .card_flex {
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
   padding: 1rem 3rem;
   gap: 1rem;
 }
@@ -10,6 +13,15 @@
 .card_box {
   margin: 1rem;
   font-size: 0.8rem;
+  border-radius: 1rem;
+  padding-bottom: 5px ;
+}
+.card_box strong {
+  font-size: 18px;
+}
+
+.card_box:hover{
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
 .card_img {
@@ -34,6 +46,9 @@
 
 .card_title {
   margin-top: 0.2rem;
+}
+.card_title:hover{
+  color: crimson;
 }
 
 p {

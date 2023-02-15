@@ -25,14 +25,16 @@ export default function NavBar() {
   );
 
   const [toggle, setToggle] = useState(false);
-  const [locationID, setLocationID] = useState(null);
+  const [locationID, setLocationID] = useState(1);
 
   let uniqueArray = _.uniqBy(allLocation, "tenViTri");
 
   return (
     <header>
       <nav className="">
-        <img src={logo} className={clsx(styles.navbar_logo)} alt="" />
+        <a className="cursor-pointer" href="/">
+          <img src={logo} className={clsx(styles.navbar_logo)} alt="" />
+        </a>
         <div
           className={clsx(styles.search_bar)}
           onClick={() => {
@@ -66,41 +68,48 @@ export default function NavBar() {
           className={clsx(
             toggle ? styles.location_active : "",
             styles.location,
-            "bg-white transition-all duration-300 "
+            "bg-white transition-all duration-300"
           )}
         >
           <form
-            className="flex items-start justify-center mt-4 gap-1  w-1/3 mx-auto  "
+            className="  hidden md:justify-around  lg:flex items-start justify-center mt-4 gap-1  w-1/3 mx-auto  "
             style={{
+              fontSize: "0.8rem",
               padding: " 0.35rem 1rem",
               border: "1px solid var(--grey)",
               borderRadius: " 40px",
               boxShadow:
                 "0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%)",
             }}
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(e);
-            }}
           >
             <div style={{ borderRight: " 0.5px solid  var(--grey)" }}>
-              <label className="block mb-1" htmlFor="diaDiem">
+              <label className="block sm mb-1" htmlFor="diaDiem">
                 <strong> Địa Điểm:</strong>
               </label>
-              <select
-                name="diaDiem"
-                id="diaDiem"
-                onChange={(e) => {
-                  setLocationID(e.target.value);
-                }}
-                style={{ border: "none" }}
-              >
-                {uniqueArray.map((item) => {
-                  return <option value={item.id}>{item.tenViTri}</option>;
-                })}
-              </select>
+              {allLocation[0]?.id && (
+                <select
+                  name="diaDiem"
+                  id="diaDiem"
+                  onChange={(e) => {
+                    setLocationID(e.target.value);
+                  }}
+                  style={{ border: "none" }}
+                  defaultValue={1}
+                >
+                  {uniqueArray.map((item) => {
+                    return (
+                      <option key={item?.id} value={item?.id}>
+                        {item.tenViTri}
+                      </option>
+                    );
+                  })}
+                </select>
+              )}
             </div>
-            <div style={{ borderRight: " 0.5px solid var(--grey)" }}>
+            <div
+              className="hidden xl:block"
+              style={{ borderRight: " 0.5px solid var(--grey)" }}
+            >
               <label htmlFor="ngayDi" className=" block  mb-1">
                 <strong> Ngày Đi:</strong>
               </label>
@@ -112,7 +121,10 @@ export default function NavBar() {
                 placeholder="Nhập vào ngày đi"
               />
             </div>
-            <div style={{ borderRight: " 0.5px solid var(--grey)" }}>
+            <div
+              className="hidden xl:block"
+              style={{ borderRight: " 0.5px solid var(--grey)" }}
+            >
               <label htmlFor="ngayDen" className="  mb-1 block">
                 <strong>Ngày Đến:</strong>
               </label>
@@ -125,7 +137,10 @@ export default function NavBar() {
               />
             </div>
 
-            <div style={{ borderRight: " 0.5px solid var(--grey)" }}>
+            <div
+              className="hidden 2xl:block"
+              style={{ borderRight: " 0.5px solid var(--grey)" }}
+            >
               <label htmlFor="number" className=" mb-1  block">
                 <strong> Số người:</strong>
               </label>
@@ -149,9 +164,8 @@ export default function NavBar() {
                   padding: "0.5rem",
                   border: "1px solid var(--grey)",
                 }}
-                type="submit"
               >
-                <FiSearch /> Tìm Kiếm
+                <FiSearch /> <span className="hidden 2xl:inline">Tìm</span>
               </button>
             </Link>
           </form>

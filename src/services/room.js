@@ -50,7 +50,7 @@ export class Room extends baseService {
   };
   //  put /api/phong-thue/{id}
   putRentalRoom = (rommid, data) => {
-    return this.put(`/api/phong-thue?id=${rommid}`, data);
+    return this.put(`/api/phong-thue/${rommid}`, data);
   };
   //  delete /api/phong-thue/{id}
   deleteRentalRoom = (rommid) => {

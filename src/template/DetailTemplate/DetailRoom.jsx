@@ -51,9 +51,10 @@ const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 
 // Detail Room
-function DetailRoom() {
+function DetailRoom({ paramsId }) {
   const dispatch = useDispatch();
 
+  console.log(paramsId);
   const detailRoom = useSelector(
     (state) => state.RoomReducers.getRenderRoomrByID
   );
@@ -61,16 +62,13 @@ function DetailRoom() {
     (state) => state.CommentsReducer.getCommentsWithroom
   );
   const user = useSelector((state) => state.Auth.userInformation);
-  console.log(user?.name);
-  //Binh Luan
-  console.log(dayjs().format("DD/MM/YYYY"));
 
   useEffect(() => {
-    dispatch(getRentalRoomByIDAction(1));
-    dispatch(getCommentByRoomAction(3));
+    dispatch(getRentalRoomByIDAction(paramsId));
+    dispatch(getCommentByRoomAction(paramsId));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [paramsId]);
 
   // date
   const [dateRange, setDateRange] = useState(null);
@@ -105,20 +103,24 @@ function DetailRoom() {
 
   // post data
   const postData = async () => {
-    const data = {
-      id: 0,
-      maPhong: 2,
-      ngayDen: dateRange && dateRange[0],
-      ngayDi: dateRange && dateRange[1],
-      soLuongKhach: num,
-      maNguoiDung: 2171,
-    };
-    try {
-      await dispatch(PostRoomAction(data));
-      console.log(data);
-      message.success("Đặt phòng thành công!");
-    } catch (err) {
-      message.error("Vui lòng chọn ngày");
+    if (user?.id) {
+      const data = {
+        id: 0,
+        maPhong: paramsId,
+        ngayDen: dateRange && dateRange[0],
+        ngayDi: dateRange && dateRange[1],
+        soLuongKhach: num,
+        maNguoiDung: user?.id,
+      };
+      try {
+        await dispatch(PostRoomAction(data));
+        console.log(data);
+        message.success("Đặt phòng thành công!");
+      } catch (err) {
+        message.error("Vui lòng chọn ngày");
+      }
+    } else {
+      message.error("Vui lòng đăng nhập");
     }
   };
 
@@ -138,13 +140,11 @@ function DetailRoom() {
   const [form] = Form.useForm();
   const commentValue = Form.useWatch("comment", form);
 
-
-
   // post comment
   const postComment = async () => {
     const data = {
       id: 0,
-      maPhong: 2,
+      maPhong: paramsId,
       maNguoiBinhLuan: user?.id,
       ngayBinhLuan: dayjs().format("DD/MM/YYYY"),
       noiDung: commentValue,
@@ -177,7 +177,7 @@ function DetailRoom() {
         alt=""
       />
       <div className="lg:flex sm:inline-block">
-        <div className="pr-32 lg:w-2/3 sm:pr-5">
+        <div className="lg:pr-24 lg:w-2/3 sm:pr-5">
           <div className="py-5 border-solid border-rose-300 border-0 border-b-2">
             <Row>
               <Col span={20}>
@@ -400,7 +400,7 @@ function DetailRoom() {
             <h2 className="text-xl font-bold">Nơi này có những gì cho bạn?</h2>
             <table className="w-full">
               <tbody>
-                <tr className="flex gap-52 text-base">
+                <tr className="flex sm:gap-52 text-base">
                   <td className="mb-2 flex flex-col w-auto gap-4">
                     {detailRoom?.mayGiat ? (
                       <div>
@@ -499,8 +499,8 @@ function DetailRoom() {
           </div>
         </div>
         <div className="lg:w-1/3 sm:w-full py-5">
-          <div className="shadow-lg shadow-red-300 rounded-2xl sticky">
-            <table className="m-auto">
+          <div className="shadow-lg shadow-red-300 rounded-2xl lg:sticky lg:top-0">
+            <table className="sm:m-auto">
               <tbody>
                 <tr>
                   <td colSpan={2} className="px-6 pt-4">
@@ -593,7 +593,7 @@ function DetailRoom() {
                     Tổng <span className="text-lg">(Chưa VAT)</span>
                   </td>
                   <td className="text-2xl text-right p-6 pt-0 font-bold">
-                    {detailRoom?.giaTien * days} $
+                    {detailRoom?.giaTien * days * num} $
                   </td>
                 </tr>
               </tbody>
@@ -639,14 +639,14 @@ function DetailRoom() {
           Hiển thị tất cả bình luận
         </button>
         <div>
-            {user && (
-              <div className="flex">
+          {user && (
+            <div className="flex">
               <Avatar
                 className="mr-4 mb-2"
                 size="large"
                 icon={<UserOutlined />}
                 src={user?.avatar}
-              />          
+              />
               <div className="w-full">
                 <h3 className="mb-2 font-semibold">{user?.name}</h3>
                 {/* <Rate value={""} count={5} /> */}
@@ -682,9 +682,9 @@ function DetailRoom() {
                   </Form.Item>
                 </Form>
               </div>
-            </div>              
-            )}
-          </div>        
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

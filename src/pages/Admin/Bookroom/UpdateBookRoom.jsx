@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, InputNumber, message, Select } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Select,
+} from "antd";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,11 +15,8 @@ import {
   getRentalRoomByIDAction,
 } from "redux/actions/RetalRoomAction";
 import { UpdateRoomAction } from "redux/actions/BookRoomAction";
-import { useParams } from "react-router-dom";
-import {
-  getAllAdminUserAction,
-  getAdminUserByIDAction,
-} from "redux/actions/AdminUserAction";
+import { useNavigate, useParams } from "react-router-dom";
+
 import { getRoomByIDAction } from "redux/actions/BookRoomAction";
 const { Option } = Select;
 const formItemLayout = {
@@ -45,8 +50,9 @@ const tailFormItemLayout = {
   },
 };
 function UpdateBookRoom() {
+  const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState("");
-  const [selectedValueUser, setSelectedValueUser] = useState("");
+
   const { id, userId, locationId } = useParams();
 
   // eslint-disable-next-line no-unused-vars
@@ -55,10 +61,7 @@ function UpdateBookRoom() {
     // setSelectedValue(event.target.value);
     setSelectedValue(event);
   };
-  const handleChangeUsers = (event) => {
-    // setSelectedValue(event.target.value);
-    setSelectedValueUser(event);
-  };
+
   const onChanges = (dates, a) => {
     console.log(dates, a);
     setDateRange(dates);
@@ -89,13 +92,13 @@ function UpdateBookRoom() {
       ngayDen: dayjs(values.date[0]).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
       ngayDi: dayjs(values.date[1]).format("YYYY-MM-DDTHH:mm:ss.SSSZ"),
       soLuongKhach: values.soLuongKhach,
-      maNguoiDung: selectedValueUser ? selectedValueUser : userId,
+      maNguoiDung: values.maNguoiDung,
     };
 
     try {
       await dispatch(UpdateRoomAction(id, data));
-      console.log(data);
-      success();
+      alert(" update Successfully");
+      navigate("/admin");
     } catch (err) {
       error();
     }
@@ -103,9 +106,7 @@ function UpdateBookRoom() {
 
   useEffect(() => {
     dispatch(getAllRentalRoomAction());
-    dispatch(getAllAdminUserAction());
     dispatch(getRentalRoomByIDAction(locationId));
-    dispatch(getAdminUserByIDAction(userId));
     dispatch(getRoomByIDAction(id));
   }, [dispatch, id, userId, locationId]);
   const allRoom = useSelector((state) => state.RoomReducers.getAllRenderRoom);
@@ -116,11 +117,11 @@ function UpdateBookRoom() {
   const UserIdDefault = useSelector(
     (state) => state.AdminUserReducers.getUserByID
   );
-  const allUser = useSelector((state) => state.AdminUserReducers.getAllUser);
 
   const daypickerDefalut = useSelector(
     (state) => state.BookRoomReducer.getRoomByID
   );
+  console.log(daypickerDefalut);
 
   return (
     daypickerDefalut?.id &&
@@ -148,11 +149,9 @@ function UpdateBookRoom() {
               >
                 {/* Name */}
                 <Form.Item
+                  initialValue={daypickerDefalut?.maNguoiDung}
                   name="maNguoiDung"
                   label="UserID"
-                  initialValue={
-                    UserIdDefault?.name ? UserIdDefault.name : userId
-                  }
                   // tooltip="What do you want others to call you?"
                   rules={[
                     {
@@ -161,13 +160,7 @@ function UpdateBookRoom() {
                     },
                   ]}
                 >
-                  <Select onChange={handleChangeUsers}>
-                    {allUser?.map((item) => (
-                      <Option key={item.id} value={item.id}>
-                        {item.name}
-                      </Option>
-                    ))}
-                  </Select>
+                  <Input />
                 </Form.Item>
                 {/* email */}
                 <Form.Item

@@ -2,9 +2,16 @@ import React from "react";
 import { PieChartOutlined, UserOutlined } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useEffect } from "react";
-
+import { useDispatch } from "react-redux";
+import { getAlllocationAction } from "redux/actions/LocationAction";
 const { Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -36,10 +43,10 @@ const items = [
 ];
 
 export default function AdminTemplate() {
-  // const location = useLocation();
-  // const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   useEffect(() => {
     // if (location.pathname !== "/admin") {
     //   navigate("/admin");
@@ -50,6 +57,9 @@ export default function AdminTemplate() {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  useEffect(() => {
+    dispatch(getAlllocationAction());
+  }, []);
 
   return (
     <Layout
@@ -62,10 +72,13 @@ export default function AdminTemplate() {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <img
-          src="https://cyberlearn.vn/wp-content/uploads/2020/03/cyberlearn-min-new-opt2.png"
-          alt="haha"
-        />
+        <NavLink to={"/"}>
+          {" "}
+          <img
+            src="https://cyberlearn.vn/wp-content/uploads/2020/03/cyberlearn-min-new-opt2.png"
+            alt="haha"
+          />
+        </NavLink>
         <Menu
           theme="dark"
           defaultSelectedKeys={["1"]}
