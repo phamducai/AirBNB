@@ -31,9 +31,7 @@ import Register from "pages/Resgiter/Register";
 import { LoginAction } from "redux/actions/AuthAction";
 import LocationClient from "pages/LocationClient/LocationClient";
 import { getAlllocationAction } from "redux/actions/LocationAction";
-import { ImportOutlined } from "@ant-design/icons";
 import _ from "lodash";
-import Loader from "component/Loader/Loader";
 
 function App() {
   let user = JSON.parse(localStorage.getItem("data"));
@@ -55,7 +53,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="detail/:id" element={<Detail />} />
-        <Route path="loader" element={<Loader />} />
 
         <Route path="" element={<HomeTemplate />}>
           <Route index path="" element={<Home />}></Route>
